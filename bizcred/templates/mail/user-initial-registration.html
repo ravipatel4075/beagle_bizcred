@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        li {
+                list-style: none;
+            }
+
+
+    </style>
+</head>
+<body>
+
+{%if user_type == 'LENDER' %}
+
+        Dear {{org_name}},
+        <br/>
+        <p>Welcome to Beagle Bazaar!</p> <br/>
+
+        <p>Your initial registration is complete with us.</p> <br/>
+
+        <p>Your user id is : {{ user }}</p>
+        <p>Your temporary password is <b>{{password}}</b></p> <br/>
+
+        <p> Further, Please complete your profile by providing necessary information by click on <a
+                href="http://www.veloceinnovations.tech/" target="_blank">Beagle Bazaar</a> to be able to get finance applications
+            through Beagle Bazaar and to provide finance on the same.
+        </p> <br/>
+
+        <p>
+            <img style="margin:10px;" src="http://www.veloceinnovations.tech/static/logo.png" alt="" class="src">
+            <br>
+            Best Regards, <br>
+            Beagle Bazaar Team <br>
+            <a href="http://www.veloceinnovations.tech/" target="_blank">Beagle Bazaar</a>
+        </p>
+
+{%else%}
+        Dear {{first_name}},
+        <br/>
+        <p>Welcome to Beagle Bazaar!</p> <br/>
+
+        <p>Temporary password for initial registration on Beagle Bazaar</p> <br/>
+
+        <p>Your user id is : {{ user }}</p> 
+        <p>Your temporary password is : <b>{{password}}</b></p> <br/>
+
+        <p>Your initial registration is complete with us.</p> <br/>
+
+        <p> Further, please provide following different level and set of information on the portal for being eligible to enjoy
+            various functionalities of the platform.</p> <br/>
+
+        <ul class='list'>
+            <li>
+                <font> &#10004; </font> Complete level – 1 registration, to have an excess to the following :-<br/>
+                <ul class='list'>
+                    <br/>
+                    <li><font> &#10004; </font> View the price of the products and vendor details</li>
+                    <li><font> &#10004; </font> Reach genuine and <a href=''>Beagle Bazaar Approved</a> dealers to purchase your
+                        desired products and equipments
+                    </li>
+                    <li><font> &#10004; </font> Raise purchase inquiries for your desired products</li>
+                    <li><font> &#10004; </font> Get exciting deals from our vendors</li>
+                    <li><font> &#10004; </font> Get enrolled for our exciting customers’ rewards programme</li>
+                </ul>
+            </li>
+            <br/>
+            <li>
+                <font> &#10004; </font> Finish level – 2 registration to further upgrade your account to <br>
+                <ul class='list'>
+                    <br/>
+                    <li><font> &#10004; </font> Become a dealer and list your products to sell through Beagle Bazaar</li>
+                    <li><font> &#10004; </font> Reach our widely spread customer base</li>
+                    <li><font> &#10004; </font> Upload the sale invoices and sales information & get enrolled for our exciting
+                        dealer
+                        rewards programme
+                    </li>
+                </ul>
+            </li>
+            <br/>
+            <li>
+                <font> &#10004; </font> Upon getting level – 3 registration you will<br/>
+                <ul class='list'>
+                    <br/>
+                    <li><font> &#10004; </font> Become a <a href=''>Beagle Bazaar Approved</a> dealer and get the <a href=''>Beagle Bazaar Approved</a> tag on all your
+                        listed products as a dealer
+                    </li>
+                    <li><font> &#10004; </font> Be eligible to get exclusive finance deals for your listed products from Beagle Bazaar
+                        and its allied finance partners
+                    </li>
+                    <li><font> &#10004; </font> Be eligible to get finance on your uploaded sale invoices</li>
+                    <li><font> &#10004; </font> Be getting product finance for your procured items</li>
+                </ul>
+            </li>
+        </ul>
+        <p>
+            <img style="margin:10px;" src="http://www.veloceinnovations.tech/static/logo.png" alt="" class="src">
+            <br>
+            Best Regards, <br>
+            Beagle Bazaar Team <br>
+            <a href="http://www.veloceinnovations.tech/" target="_blank">Beagle Bazaar</a>
+        </p>
+
+{%endif%}
+
+
+</body>
+</html>

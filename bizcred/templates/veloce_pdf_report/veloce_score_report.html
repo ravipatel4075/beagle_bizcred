@@ -1,0 +1,479 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Title</title>
+        <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+        <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            /* .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important; */
+                /*margin-left: 40%;*/
+            /* } */
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+            @page {
+                size: a4 portrait;
+                @frame header_frame {           /* Static Frame */
+                    -pdf-frame-content: header_content;
+                    left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+                }
+                @frame content_frame {
+                    left: 50pt;
+                    width: 512pt;
+                    top: 30pt;
+                    height: 740pt;
+                    -pdf-frame-border: 1;    /* for debugging the layout */
+                     }
+                @frame footer_frame {           /* Another static Frame */
+                    -pdf-frame-content: footer_content;
+                    left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+                }
+                }
+        </style>
+<title>Title of the document</title>
+    <style type="">
+        .border {
+                border: 1px solid #000;
+                }
+
+        .th, td {
+                padding-left: 3px;
+                }
+    </style>
+    </head>
+
+<body>
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <img  src="http://www.velocefintech.com/static/veloce/images/logo.png" alt="">
+        </div>
+        <div class="col-md-8">
+            <p> VELOCE FINTECH PRIVATE LIMITED <br>
+                RSM-Lemon House, G/02-05, G&J Park, <br>
+                Gujarat Hira Bourse, Icchapore Surat - 394510 <br>
+                GSTIN: 24AAHCV3464D1ZG <br>
+            </p>
+            <h6>CONSUMER CREDIT RATING REPORT <br> For ID : {{HEADER.REPORT_ID}} {{REQUEST.NAME.upper()}}</h6>
+        </div>
+    </div>
+        <div id="footer_content">page <pdf:pagenumber> of <pdf:pagecount> </div>
+        <div>
+
+        <hr class='hrItem' />
+
+<!--            {{REQUEST}}-->
+<!--            {{VELOCE_DATA}}-->
+<!--            {{GENERAL_DATA}}-->
+<!--            <div class="col-md-6">-->
+<!--                    <p><span>Name: </span> <span class="content"> {{REQUEST.NAME.upper()}}</span></p>-->
+<!--                    <p><span>DOB: </span> <span class="irn content"> {{REQUEST.DOB.replace("_", "-")}}</span></p>-->
+<!--                    <p><span>Gender: </span> <span class="irn content"> {% if GENERAL_DATA.gender == 1 %} Male {% else %} Female {% endif %}</span></p>-->
+
+<!--                    <p><span>Spouse: </span> <span class="content"> {{REQUEST.SPOUSE.upper()}}</span></p>-->
+<!--                    <p><span>Phone Number: </span> <span class="content"> {{REQUEST.PHONE_1}}</span></p>-->
+<!--                    <p><span>Application No: </span> <span class="content"> ???? </span></p>-->
+<!--                    <p><span>Current Address: </span> <span class="content"> {{REQUEST.ADDRESS_1}}</span></p>-->
+<!--                    <p><span>Email Ids: </span> <span class="content"> {{REQUEST.EMAIL_1}}</span></p>-->
+
+
+            <h4 style="background-color:orange;"> Basic Information</h4>
+            <table>
+                <tr>
+                    <td style="width:20%;" >Name:</td>
+                    <td style="text-align:left;"> {{REQUEST.NAME.upper()}}</td>
+                    <td style="width:20%;" >DOB:</td>
+                    <td style="text-align:left;">{{REQUEST.DOB.replace("_", "-")}}</td>
+                </tr>
+                <tr>
+                    <td>Gender:</td>
+                    <td style="text-align:left;"> {% if GENERAL_DATA.gender == 1 %} Male {% else %} Female {% endif
+                        %}
+                    </td>
+                    <td>Father/Spouse:</td>
+                    <td style="text-align:left;">{{REQUEST.SPOUSE.upper()}}</td>
+                </tr>
+                <tr>
+                    <td>Phone Number:</td>
+                    <td style="text-align:left;"> {{REQUEST.PHONE_1}}</td>
+                    <td>Email Ids:</td>
+                    <td style="text-align:left;"> {{REQUEST.EMAIL_1}}</td>
+                </tr>
+                <tr>
+                    <td>Application No:</td>
+                    <td style="text-align:left;"> ?????</td>
+
+                </tr>
+                <tr class="border-bottom">
+                    <td>Current Address:</td>
+                    <td style="text-align:left;" colspan="3"> {{REQUEST.ADDRESS_1}}</td>
+                </tr>
+            </table>
+
+
+            <h4 style="background-color:grey;">Credit rating by External Rating Agency (CRIF)</h4>
+            <table>
+                <tr>
+                    <td style="width:20%;" >Agency Name:</td>
+                    <td style="text-align:left;">CRIF</td>
+                    <td style="width:20%;" >CHM Ref #:</td>
+                    <td style="text-align:left;">{{HEADER.REPORT_ID}}</td>
+                </tr>
+                <tr>
+                    <td>Date of Request:</td>
+                    <td style="text-align:left;">{{HEADER.DATE_OF_REQUEST.replace("_", "-")}}</td>
+                    <td>Date of Issue:</td>
+                    <td style="text-align:left;">{{HEADER.DATE_OF_ISSUE.replace("_", "-")}}</td>
+                </tr>
+                <tr>
+                    <td>Score Name:</td>
+                    <td style="text-align:left;" colspan="3">{{SCORES.SCORE.SCORE_TYPE}}</td>
+                </tr>
+                <tr>
+                    <td>Score Range:</td>
+                    <td style="text-align:left;">????</td>
+                    <td>Description:</td>
+                    <td style="text-align:left;">{{SCORES.SCORE.SCORE_COMMENTS}}</td>
+                </tr>
+                <tr class="border-bottom">
+                    <td>Credit Score:</td>
+                    <td style="text-align:left;"> {{SCORES.SCORE.SCORE_VALUE}}</td>
+<!--                    <td>Description:</td>-->
+<!--                    <td style="text-align:left;">????</td>-->
+                </tr>
+            </table>
+
+<!--            <style>-->
+<!--              tr.border-bottom td {-->
+<!--                border-bottom: 1pt solid black;-->
+<!--              }-->
+<!--            </style>-->
+            <!--                <p><span> Agency Name: </span> <span class="content">  CRIF </span></p>-->
+<!--                <p><span>CHM Ref #: </span> <span class="content">  {{HEADER.REPORT_ID}} </span></p>-->
+<!--                <p><span>Date of Request: </span> <span class="content"> {{HEADER.DATE_OF_REQUEST.replace("_", "-")}}  </span></p>-->
+<!--                <p><span>Date of Issue: </span> <span class="content"> {{HEADER.DATE_OF_ISSUE.replace("_", "-")}}  </span></p>-->
+<!--                <p><span>Score Name: </span> <span class="content"> {{ SCORES.SCORE.SCORE_TYPE }}  </span></p>-->
+<!--                <p><span>Score Range: </span> <span class="content"> ????  </span></p>-->
+<!--                <p><span>Score: </span> <span class="content"> {{ SCORES.SCORE.SCORE_COMMENTS }}  </span></p>-->
+<!--                <p><b><span>Credit Score: </span> <span class="content"> {{ SCORES.SCORE.SCORE_VALUE }}  </span></b></p>-->
+<!--                <p><span>Description: </span> <span class="content"> ?????  </span></p>-->
+
+                <hr class='hrItem'/>
+                <h4 style="background-color:red; margin-bottom:0px" >Veloce Credit Rating </h4>
+<!--                {{VELOCE_DATA.0}}-->
+
+<!--                <p><span> Defaults on MCA (Ministry of Corporate Affairs) </span> <span class="content">  {{VELOCE_DATA.0.mca_default}}  # {% if VELOCE_DATA.0.mca_default == 'False' %} 100 {% else %} -100 {% endif %} </span></p>-->
+<!--                <p><span> GST Defaults </span> <span class="content">  {{VELOCE_DATA.0.gst_default}} # {% if VELOCE_DATA.0.gst_default == 'False' %} 100 {% else %} -100 {% endif %}</span></p>-->
+<!--                <p><span> Criminal / Civil Case </span> <span class="content">  {{VELOCE_DATA.0.criminal_civil_case}} # {% if VELOCE_DATA.0.criminal_civil_case == 'False' %} -200  {% else %} 100 {% endif %}</span></p>-->
+<!--                <p><span> Is Address Checked ? </span> <span class="content">  {{VELOCE_DATA.0.is_address_checked}} # {% if VELOCE_DATA.0.is_address_checked == 'False' %} -200 {% else %} 100 {% endif %}</span></p>-->
+<!--                <p><span> Own house ? </span> <span class="content">  {{VELOCE_DATA.0.own_house}} # {% if VELOCE_DATA.0.own_house == 'False' %} -100 {% else %} 100 {% endif %}</span></p>-->
+<!--                <p><span> DE Ratio </span> <span class="content">  {{VELOCE_DATA.0.de_ratio}} # {% if VELOCE_DATA.0.de_ratio < 1.5 %} 100 {% else %} -200 {% endif %}</span></p>-->
+<!--                <p><span> Current Ratio </span> <span class="content">  {{VELOCE_DATA.0.current_ratio}} # {% if VELOCE_DATA.0.current_ratio < 1.75 %} -100 {% else %} 100 {% endif %}</span></p>-->
+<!--                <p><span> EBIDT Percentage </span> <span class="content">  {{VELOCE_DATA.0.ebitda_percentage}} # {% if VELOCE_DATA.0.ebitda_percentage < 12  %} -100 {% else %} 100 {% endif %}</span></p>-->
+<!--                <p><span> Interest Coverage Ratio </span> <span class="content">  {{VELOCE_DATA.0.int_cov_ratio}} # {% if VELOCE_DATA.0.int_cov_ratio < 1.25 %} -100 {% else %} 100 {% endif %}</span></p>-->
+<!--                <p><span> Is PAN verified ? </span> <span class="content">  {{VELOCE_DATA.0.is_pan_verified}} # {% if VELOCE_DATA.0.is_pan_verified == 'False' %} -166.66 {% else %} 33.33 {% endif %}</span></p>-->
+<!--                <p><span> IS GST verified ? </span> <span class="content">  {{VELOCE_DATA.0.is_gst_verified}} # {% if VELOCE_DATA.0.is_gst_verified == 'False' %} -166.66 {% else %} 33.33 {% endif %}</span></p>-->
+<!--                <p><span> IS Aadhar verified ? </span> <span class="content">  {{VELOCE_DATA.0.is_adhaar_verified}} # {% if VELOCE_DATA.0.is_adhaar_verified == 'False' %} -166.66 {% else %} 33.33 {% endif %}</span></p>-->
+<!--                <p><span> Cheque Bounced ? </span> <span class="content">  {{VELOCE_DATA.0.cheque_bounced}} # {% if VELOCE_DATA.0.cheque_bounced == 'False' %} -100 {% else %} 50 {% endif %}</span></p>-->
+<!--                <p><span> Bank comfort letter ? </span> <span class="content">  {{VELOCE_DATA.0.bank_comfort_letter}} # {% if VELOCE_DATA.0.bank_comfort_letter == 'False' %} -50 {% else %} 50  {% endif %}</span></p>-->
+<!--                <p><span> Credit manager score </span> <span class="content">  {{VELOCE_DATA.0.credit_manage_score}} #  {{VELOCE_DATA.0.credit_manage_score}} </span></p>-->
+<!--                <p><span> Total Internal Credit Rating Score </span> <span class="content">  {{VELOCE_DATA.0.total_score}} # {{ VELOCE_DATA.0.total_score }} </span></p>-->
+
+
+            <table>
+                <tr class="border">
+                    <th style="width:50%; padding-top:1px;">Credit Rating Parameter</th>
+                    <th style="width:25%; padding-top:1px;">Rating Parameter Value</th>
+                    <th style="width:25%; padding-top:1px;">Credit Score</th>
+                </tr>
+<!--                # height:25px;-->
+                <tr class="border">
+                    <td style="padding-left:3px; padding-top:3px; padding-bottom:1px;"> Defaults on MCA (Ministry of Corporate Affairs)</td>
+                    <td style="text-align:center; padding-top:3px; padding-bottom:1px;"> {{VELOCE_DATA.0.mca_default}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.mca_default == False %} 100 {% else %} -50 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Defaults on GST</td>
+                    <td style="text-align:center; padding-top:3px;"> {{VELOCE_DATA.0.gst_default}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;" >{% if VELOCE_DATA.0.gst_default == False %} 100 {% else %} -100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Criminal civil case ?</td>
+                    <td style="text-align:center; padding-top:3px;"> {{VELOCE_DATA.0.criminal_civil_case}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.criminal_civil_case == False %} 100 {% else %}
+                        -200 {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Is Address Checked ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.is_address_checked}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;"> {% if VELOCE_DATA.0.is_address_checked == False %} -200 {% else %}
+                        100 {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Own house ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.own_house}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;"> {% if VELOCE_DATA.0.own_house == False %} -100 {% else %} 100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>DE Ratio</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.de_ratio}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.de_ratio < 1.5 %} 100 {% else %} -200 {% endif
+                        %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Current Ratio</td>
+                    <td style="text-align:center; padding-top:3px;"> {{VELOCE_DATA.0.current_ratio}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.current_ratio < 1.75 %} -100 {% else %} 100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>EBIDT Percentage</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.ebitda_percentage}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.ebitda_percentage < 12 %} -100 {% else %} 100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Interest Coverage Ratio</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.int_cov_ratio}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.int_cov_ratio < 1.25 %} -100 {% else %} 100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Is PAN verified ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.is_pan_verified}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.is_pan_verified == False %} -166.66 {% else %}
+                        33.33 {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>IS GST verified ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.is_gst_verified}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.is_gst_verified == False %} -166.66 {% else %}
+                        33.33 {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>IS Aadhar verified ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.is_adhaar_verified}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.is_adhaar_verified == False %} -166.66 {% else %}
+                        33.33 {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Cheque Bounced ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.cheque_bounced}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.cheque_bounced == False %} 50 {% else %} -100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Bank comfort letter ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.bank_comfort_letter}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.bank_comfort_letter == False %} -50 {% else %} 50
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Credit manager score</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.credit_manage_score}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{{VELOCE_DATA.0.credit_manage_score}}</td>
+                </tr>
+                <tr class="border">
+                    <td>Credit Rating</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.credit_rating}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{{VELOCE_DATA.0.credit_rating}}</td>
+                </tr>
+                <tr class="border-bottom">
+                    <td>Total Internal Credit Rating Score</td>
+                    <td style="text-align:center; padding-top:3px;"> {{VELOCE_DATA.0.total_score}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;"> {{ VELOCE_DATA.0.total_score }}</td>
+                </tr>
+
+            </table>
+
+        <h4 style="background-color:skyblue; margin-bottom:0px" >Overall Credit Rating </h4>
+<!--             <p><span> External Ratting Score: </span> <span class="content">  {{ SCORES.SCORE.SCORE_VALUE }} </span></p>-->
+<!--             <p><span> Internal Ratting Score: </span> <span class="content">  {{ TOTAL_SCORE_VELOCE }} </span></p>-->
+<!--             <p><span> Total Veloce Ratting Score: </span> <span class="content"> {{TOTAL_SCORE}} </span></p>-->
+<!--             <p><span> Score Range: </span> <span class="content">  {{SCORE_RANGE}} </span></p>-->
+<!--             <p><span> Veloce Rate: </span> <span class="content">  V{{SCORE_ID}} </span></p>-->
+
+<!--                   <p><span> Score Name: </span> <span class="content">  {{VELOCE_MASTER.0.veloce_rating}} -&ndash;&gt; {{VELOCE_MASTER.0.start}} <&ndash;&gt; {{VELOCE_MASTER.0.end}}  </span></p>-->
+       <table>
+<!--          <tr class="border-top" >-->
+<!--              <th style="width:50%;">Credit Rating Parameter</th>-->
+<!--              <th style="width:25%;">Rating Parameter Value </th>-->
+<!--              <th style="width:25%;">Credit Score</th>-->
+<!--          </tr>-->
+
+          <tr>
+              <td>External Ratting Score:</td>
+              <td style="text-align:left;"> {{ SCORES.SCORE.SCORE_VALUE }}</td>
+               <td>Internal Ratting Score:</td>
+              <td style="text-align:left;">{{ TOTAL_SCORE_VELOCE }}</td>
+          </tr>
+          <tr>
+              <td>Total Veloce Ratting Score:</td>
+              <td style="text-align:left;"> {{TOTAL_SCORE}}  </td>
+               <td> </td>
+              <td style="text-align:left;"> </td>
+          </tr>
+          <tr class="border-bottom">
+              <td>Score Range:</td>
+              <td style="text-align:left;"> {{SCORE_RANGE}} </td>
+               <td>Veloce Rate:</td>
+              <td style="text-align:left;"> V{{SCORE_ID}} </td>
+          </tr>
+
+      </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!--                {{SCORES.SCORE_TYPE}}-->
+<!--                {% for i in SCORES %}-->
+<!--                    {% for d in SCORES[i] %}-->
+<!--                    <ul class='details'>-->
+<!--                         {{SCORES[i].SCORE_TYPE}}-->
+<!--                        <li>{{d}}: {{SCORES[i][d]}}</li>-->
+<!--                    </ul>-->
+<!--                    {%endfor%}-->
+<!--                {%endfor%}-->
+<!--            </div>-->
+
+
+<!--            &lt;!&ndash;            {{VELOCE_DATA}}&ndash;&gt;-->
+<!--            <div style="width: 48%; float: left; display: inline-block;">-->
+<!--                <p>-->
+<!--                    <span>My Name Is :</span>-->
+<!--                    <span>Ajay</span>-->
+<!--                </p>-->
+<!--            </div>-->
+
+<!--            <div style="width: 48%; float: right; display: inline-block;">-->
+<!--                <p>-->
+<!--                    <span>My Name Is :</span>-->
+<!--                    <span>Piyush</span>-->
+<!--                </p>-->
+<!--            </div>-->
+<!--        <div class="row">-->
+<!--            <div>-->
+<!--                <p>-->
+<!--                    <span>Ajay</span>-->
+<!--                    <span>Yadav</span>-->
+<!--                </p>-->
+<!--            </div>-->
+<!--            <div class="col-md-6">-->
+<!--                <p>-->
+<!--                    <span>Piyush</span>-->
+<!--                    <span>Prajapati</span>-->
+<!--                </p>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <table class="table">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>Creadit Ratting Parameter</th>-->
+<!--                <th>Product</th>-->
+<!--                <th>Quantity</th>-->
+<!--                <th>Price</th>-->
+<!--                <th>Customer</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            {% for v_DATA in VELOCE_DATA %}-->
+<!--                <tr>-->
+<!--                    <td>{{v_DATA.crif_score}}</td>-->
+<!--                    <td>{{v_DATA.user_id}}</td>-->
+<!--                    <td>{{v_DATA.id}}</td>-->
+<!--                    <td>{{v_DATA.current_ratio}}</td>-->
+<!--                    <td> {{v_DATA.credit_rating}}</td>-->
+<!--                </tr>-->
+<!--            {% endfor %}-->
+<!--            </tbody>-->
+<!--        </table>-->
+
+<!--        <hr class='hrItem' />-->
+<!--        <h4>Header</h4>-->
+<!--            {{VELOCE_DATA.ID}}-->
+<!--        {% for i in VELOCE_DATA %}-->
+<!--            <ul class='details'>-->
+<!--                <li>{{i}}: {{VELOCE_DATA[i]}}</li>-->
+<!--            </ul>-->
+<!--        {%endfor%}-->
+
+<!--        <hr class='hrItem' />-->
+<!--        <h4>Header</h4>-->
+<!--            {{HEADER.REPORT_ID}}-->
+<!--        {% for i in HEADER %}-->
+<!--            <ul class='details'>-->
+<!--                <li>{{i}}: {{HEADER[i]}}</li>-->
+<!--            </ul>-->
+<!--        {%endfor%}-->
+
+
+<!--        <hr class='hrItem' />-->
+<!--        <h4>Request</h4>-->
+<!--                {{REQUEST}}-->
+<!--        {% for i in REQUEST %}-->
+<!--            <ul class='details'>-->
+<!--                <li>{{i}}: {{REQUEST[i]}}</li>-->
+<!--            </ul>-->
+<!--        {%endfor%}-->
+
+    </div>
+</body>
+<!-- jQuery and JS bundle w/ Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+</html>

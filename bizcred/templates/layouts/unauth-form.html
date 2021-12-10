@@ -1,0 +1,83 @@
+{%extends "layouts/unauth.html"%}
+
+
+{%block content%}
+<form method='POST' enctype="multipart/form-data" novalidate>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}">
+
+    {% if error %}
+    <br>
+    <div class="alert alert-danger" role="alert">
+        {{error}}
+        {{form.non_field_errors()}}
+    </div>
+    {% elif success %}
+    <br>
+    <div class="alert alert-success" role="alert">
+        {{success}}
+    </div>
+    {%endif%}
+
+    {%block pre%}{%endblock pre%}
+
+    <div class="fields">
+        {% for field in form %}
+        {% if not field.is_hidden %}
+        <div class='bizcred-form-control {% if not form.half or field.html_name not in form.half %} full {% endif %}'>
+            <label for="{{field.id_for_label }}">{{field.label|safe}}</label>
+
+            <div class='flex {% if field.errors %} invalid {%endif%}'>
+                {{field}}
+            </div>
+            {%if field.errors%}
+            <div class="errorlist">
+                {{' '.join(field.errors)}}
+            </div>
+            {%endif%}
+        </div>
+        {%else%}
+        {{field}}
+        {%endif%}
+        {% endfor %}
+    </div>
+
+    <br><br>
+
+    {%block post%}{%endblock post%}
+
+    <br><br><br><br>
+</form>
+
+{%block style%}{%endblock style%}
+{%block script%}
+{%endblock script%}
+<script>
+    $( document ).ready(function() {
+        $('#id_org_name').parent().parent('div').css('display', 'none');
+        $("#id_account_type").on("change", function(){
+            if($(this).val() == 1){
+                $('#id_org_name').parent().parent('div').css('display', 'none');
+                $('#auth-head').css('display', 'none');
+            }
+            else{
+                $('#id_org_name').parent().parent('div').css('display', 'block');
+                if($("#auth-head").length <= 0) {
+                    $('#id_first_name').parent().parent('div').before('<div class="bizcred-form-control full" id="auth-head"><h5>AUTHORISED PERSON DETAIL</h5></div>');
+                }
+                else{
+                    $('#auth-head').css('display', 'block');
+                }
+            }
+        });
+        $('#id_password').parent().parent().parent().siblings('.btn-primary').on("click", function(){
+            if($('#id_email').val() == '' || $('#id_password').val() == ''){
+                if($('#id_email').parent().parent().parent().siblings('.alert-danger').length > 0){
+                    $('#id_email').parent().parent().parent().siblings('.alert-danger').remove();
+                }
+            }
+        })
+    });
+
+
+</script>
+{%endblock content%}

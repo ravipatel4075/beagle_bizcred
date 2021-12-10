@@ -1,0 +1,320 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Title</title>
+        <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+        <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            /* .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important; */
+                /*margin-left: 40%;*/
+            /* } */
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+            @page {
+                size: a4 portrait;
+                @frame header_frame {           /* Static Frame */
+                    -pdf-frame-content: header_content;
+                    left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+                }
+                @frame content_frame {
+                    left: 50pt;
+                    width: 512pt;
+                    top: 30pt;
+                    height: 740pt;
+                    -pdf-frame-border: 1;    /* for debugging the layout */
+                     }
+                @frame footer_frame {           /* Another static Frame */
+                    -pdf-frame-content: footer_content;
+                    left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+                }
+                }
+        </style>
+<title>Title of the document</title>
+    <style type="">
+        .border {
+                border: 1px solid #000;
+                }
+
+        .th, td {
+                padding-left: 3px;
+                }
+    </style>
+    </head>
+
+<body>
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <img  src="http://www.velocefintech.com/static/veloce/images/logo.png" alt="">
+        </div>
+        <div class="col-md-8">
+            <p style="text-align:right;"> VELOCE FINTECH PRIVATE LIMITED <br>
+                RSM-Lemon House, G/02-05, G&J Park, <br>
+                Gujarat Hira Bourse, Icchapore Surat - 394510 <br>
+                GSTIN: 24AAHCV3464D1ZG <br>
+            </p>
+            <h6 style="text-align:left;">CONSUMER CREDIT RATING REPORT <br>
+                For ID : {{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.HEADER.REPORT_ID}}
+                         {{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.NAME}}</h6>
+
+    </div>
+        <div
+                id="footer_content">page <pdf:pagenumber> of <pdf:pagecount>
+        </div>
+
+    <!--                   <p><span> Score Name: </span> <span class="content">  {{VELOCE_MASTER.0.veloce_rating}} -&ndash;&gt; {{VELOCE_MASTER.0.start}} <&ndash;&gt; {{VELOCE_MASTER.0.end}}  </span></p>-->
+
+<!--            {{GENERAL_DATA}}-->
+<!--            piyush {{VELOCE_MASTER}}-->
+<!--{{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.SCORES.SCORE}}-->
+<!--{{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.HEADER.REPORT_ID}}-->
+<!--{{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.NAME}}-->
+<!--            {{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST}}-->
+
+<!--           COMMERCIAL_CREDIT_REPORT  {{COMMERCIAL_CREDIT_REPORT}}-->
+<!--            {{VELOCE_DATA}}-->
+<!--         piyush general   {{GENERAL_DATA}}-->
+<!--company name {{GENERAL_DATA.0.org_name}}-->
+
+<body>
+        <hr class='hrItem' />
+<div>
+        <table>
+            <h4 style="background-color:orange;"> Basic Information</h4>
+                <tr>
+                  <td style="width:20%;"  >Name:</td>
+                  <td style="text-align:left;"> {{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.NAME}}</td>
+                  <td style="width:20%;" >DOS:</td>
+                  <td style="text-align:left;">Start month-Year </td>
+                </tr>
+                <tr>
+                  <td>Company Type CIN:</td>
+                  <td style="text-align:left;"> {{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.CIN}}</td>
+
+                  <td>Auth. Person:</td>
+                  <td style="text-align:left;"> {{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.NAME}}</td>
+                </tr>
+            <tr>
+                <td>Phone number:</td>
+                <td style="text-align:left;"> {{PHONE_DATA.0.phone_number}}</td>
+                <td>Email id:</td>
+                <td style="text-align:left;"> {{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.EMAIL}}</td>
+            </tr>
+                <tr>
+                  <td>Address:</td>
+                  <td style="text-align:left;" colspan="3"> {{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.ADDRESS_1}}</td>
+                </tr>
+        </table>
+
+<h4 style="background-color:grey;">Credit rating by External Rating Agency (CRIF)</h4>
+      <table>
+          <tr>
+              <td style="width:20%;" >Agency Name: </td>
+              <td style="text-align:left; ">CRIF</td>
+              <td style="width:20%;" >CHM Ref #: </td>
+              <td style="text-align:left;">{{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.HEADER.REPORT_ID}}</td>
+          </tr>
+          <tr>
+              <td>Date of Request: </td>
+              <td style="text-align:left;">{{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.HEADER.DATE_OF_REQUEST.replace('_','-')}}</td>
+              <td>Date of Issue: </td>
+              <td style="text-align:left;">{{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.HEADER.DATE_OF_ISSUE.replace('_','-')}}</td>
+          </tr>
+          <tr>
+              <td>Score Name: </td>
+              <td style="text-align:left;" colspan="3"> {{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.SCORES.SCORE.SCORE_TYPE}}</td>
+          </tr>
+          <tr>
+              <td>Score Range: </td>
+              <td style="text-align:left;">{{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.SCORES.SCORE.SCORE_VALUE}}</td>
+              <td>Score: </td>
+              <td style="text-align:left;">{{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.SCORES.SCORE.SCORE_COMMENTS}}</td>
+          </tr>
+          <tr>
+              <td>Score : </td>
+              <td style="text-align:left;">{{COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.SCORES.SCORE.SCORE_VALUE}}</td>
+          </tr>
+      <table>
+                <tr class="border">
+                    <th style="width:50%; padding-top:1px;">Credit Rating Parameter</th>
+                    <th style="width:25%; padding-top:1px;">Rating Parameter Value</th>
+                    <th style="width:25%; padding-top:1px;">Credit Score</th>
+                </tr>
+                <tr class="border">
+                    <td style="padding-left:3px; padding-top:3 px; padding-bottom:1px;"> Defaults on MCA (Ministry of Corporate Affairs)</td>
+                    <td style="text-align:center; padding-top:3px; padding-bottom:1px;"> {{VELOCE_DATA.0.mca_default}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.mca_default == False %} 100 {% else %} -50 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Defaults on GST</td>
+                    <td style="text-align:center; padding-top:3px;"> {{VELOCE_DATA.0.gst_default}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;" >{% if VELOCE_DATA.0.gst_default == False %} 100 {% else %} -100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Criminal civil case ?</td>
+                    <td style="text-align:center; padding-top:3px;"> {{VELOCE_DATA.0.criminal_civil_case}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.criminal_civil_case == False %} 100 {% else %}
+                        -200 {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Is Address Checked ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.is_address_checked}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;"> {% if VELOCE_DATA.0.is_address_checked == False %} -200 {% else %}
+                        100 {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Own house ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.own_house}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;"> {% if VELOCE_DATA.0.own_house == False %} -100 {% else %} 100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>DE Ratio</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.de_ratio}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.de_ratio < 1.5 %} 100 {% else %} -200 {% endif
+                        %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Current Ratio</td>
+                    <td style="text-align:center; padding-top:3px;"> {{VELOCE_DATA.0.current_ratio}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.current_ratio < 1.75 %} -100 {% else %} 100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>EBIDT Percentage</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.ebitda_percentage}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.ebitda_percentage < 12 %} -100 {% else %} 100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Interest Coverage Ratio</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.int_cov_ratio}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.int_cov_ratio < 1.25 %} -100 {% else %} 100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Is PAN verified ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.is_pan_verified}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.is_pan_verified == False %} -166.66 {% else %}
+                        33.33 {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>IS GST verified ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.is_gst_verified}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.is_gst_verified == False %} -166.66 {% else %}
+                        33.33 {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>IS Aadhar verified ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.is_adhaar_verified}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.is_adhaar_verified == False %} -166.66 {% else %}
+                        33.33 {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Cheque Bounced ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.cheque_bounced}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.cheque_bounced == False %} 50 {% else %} -100 {%
+                        endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Bank comfort letter ?</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.bank_comfort_letter}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{% if VELOCE_DATA.0.bank_comfort_letter == False %} -50 {% else %} 50
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr class="border">
+                    <td>Credit manager score</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.credit_manage_score}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{{VELOCE_DATA.0.credit_manage_score}}</td>
+                </tr>
+                <tr class="border">
+                    <td>Credit Rating</td>
+                    <td style="text-align:center; padding-top:3px;">{{VELOCE_DATA.0.credit_rating}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;">{{VELOCE_DATA.0.credit_rating}}</td>
+                </tr>
+                <tr class="border-bottom">
+                    <td>Total Internal Credit Rating Score</td>
+                    <td style="text-align:center; padding-top:3px;"> {{VELOCE_DATA.0.total_score}}</td>
+                    <td style="text-align:right; padding-top:3px; padding-bottom:1px; padding-right:2px;"> {{ VELOCE_DATA.0.total_score }}</td>
+                </tr>
+
+            </table>
+
+  <h4 style="background-color:green; margin-bottom:0px" >Overall Credit Rating </h4>
+        <table>
+          <tr>
+              <td>External Ratting Score:</td>
+               <td style="text-align:left;">  {{ VELOCE_DATA.0.crif_score }} </td>
+               <td>Internal Ratting Score:</td>
+              <td style="text-align:left;">{{ TOTAL_SCORE_VELOCE }}</td>
+          </tr>
+          <tr>
+              <td>Total Veloce Ratting Score:</td>
+              <td style="text-align:left;"> {{TOTAL_SCORE}}  </td>
+               <td> </td>
+              <td style="text-align:left;"> </td>
+          </tr>
+          <tr class="border-bottom">
+              <td>Score Range:</td>
+              <td style="text-align:left;"> {{SCORE_RANGE}} </td>
+               <td>Veloce Rate:</td>
+              <td style="text-align:left;"> V{{SCORE_ID}} </td>
+          </tr>
+      </table>
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+<!-- jQuery and JS bundle w/ Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+</html>

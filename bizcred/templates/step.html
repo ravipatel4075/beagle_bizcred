@@ -1,0 +1,1132 @@
+{%extends "layouts/auth-form.html"%}
+
+{%block title%}Profile: {{form.TITLE}}{%endblock title%}
+{%block pagetitle%}Profile: {{form.TITLE}}{%endblock pagetitle%}
+
+{%block pre%}
+<h1>
+<!--    {%if step > 1%}-->
+<!--        {% if meta.is_complete(step-2) == False and counter == 0%}-->
+<!--            &lt;!&ndash; <script>confirm("Your Previous page is incomplete")</script>   &ndash;&gt;-->
+<!--            <span style="color: red;font-size: 25px;">Complete the previous page details.</span><br />-->
+<!--        {% endif %}-->
+    {%endif%}
+    {% if counter == 1 %}
+        <span style="color: red;font-size: 25px;">Complete the previous level.</span><br />
+    {% endif %}
+    <!--    {{modules[step-1].title}}-->
+    {% if "General" in modules[step-1].title %}
+        {% if user.metadata.account_type == 1 %}
+            General Information
+        {% else %}
+            Authorised Person Detail
+        {% endif %}
+    {% else %}
+        {{modules[step-1].title}}
+    {% endif %}
+
+</h1>
+<!--{%set status = meta.get_status(step-1)%}-->
+<!--{%if modules[step-1].level > 1%}-->
+<!--<div class="status-badge">-->
+<!--    Optional-->
+<!--</div>-->
+<!--{%endif%}-->
+<div class="status-badge {{status.lower().replace(' ', '_')}}">
+    {{status}}
+
+</div>
+<br><br>
+
+{%endblock pre%}
+{%block post%}
+{%if mode == 'edit'%}
+<div class="bizcred-form-control full">
+    <div class="flex">
+        <a href="/" class="btn btn-link">Cancel</a>
+        <input class="btn btn-primary" type="submit" value="Save">
+    </div>
+</div>
+{%else%}
+<div class="flex">
+    {%if step <= 1%}
+    <a href="/accounts/logout" class="btn btn-link">Logout</a>
+    {%else%}
+    <a href="/step/{{step-1}}/1" class="btn btn-link">Back</a>
+    {%endif%}
+    &nbsp;&nbsp;&nbsp;
+    {%if step == num_steps%}
+        {%if (meta.account_type == 1  and modules[step-1].smalltitle == "Previous Loans Details") or modules[step-1].smalltitle == "Group Company" or (modules[step-1].smalltitle == 'Bank Account Details' and meta.account_type == 3) %}
+        <input class="btn btn-primary" type="button" id="id_next" value="Submit">
+    {%else%}
+    <input class="btn btn-primary" type="submit" value="Submit">
+    {%endif%}
+    {%else%}
+    {%if modules[step-1].smalltitle == "Current Address" or modules[step-1].smalltitle == "Office Address" or modules[step-1].smalltitle == "Bank Account Details" %}
+    <input class="btn btn-primary {%if counter == 1 %} fields-incomplete {%else%}{%endif%}" id="id_next" type="submit" value="Next">
+    {%else%}
+    <input class="btn btn-primary {%if counter == 1 %} fields-incomplete {%else%}{%endif%}" type="submit" value="Next">
+    {%endif%}
+    {%endif%}
+</div>
+{%endif%}
+<input type="hidden" id="id_step" value="{{step}}">
+<div id="myModal" class="preview-modal">
+    <span class="close">&times;</span>
+    <img class="preview-modal-content" id="img01">
+    <div id="caption"></div>
+</div>
+<!-- modal for next button-->
+{% if meta.account_type != 3 %}
+    <div class="modal fade" id="nextModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <font color="Green"> Attention!! </font>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <font color="Black"> </font>
+                {%for l in level_status%}
+                    {%if l.level == 1 and (modules[step-1].smalltitle == "Current Address" or modules[step-1].smalltitle == "Office Address")%}
+                        <div class="level-{{l.level}}">
+                            {% if l.level == 1 and (l.count == 0 or (l.count == 1 and not meta.is_complete(step-1)))%}
+                                <ul>
+                                    Thank you for providing your registration information up to level 1 and showing trust with Beagle bazaar.
+                                </ul>
+                                <ul>
+                                    1Upon submission of the same, it would be subject to review by our team
+                                </ul>
+                            {% if l.level == 1 and l.count == 0 and l.verified_count == 0 %}
+                            {%else%}
+                            <ul>
+                                    And our team will shortly review and approve it. </br>
+                            </ul>
+                            {%endif%}
+                            {%elif l.level == 1 and l.count > 0%}
+                                <ul>
+                                    <font color="Green"> &#10004; </font> <font color="Black"> </font> Your level – 1 registration
+                                    is not
+                                    yet complete, please provide all required information </br>
+                                </ul>
+                            {%else%}
+                            {%endif%}
+                        </div>
+                    {%elif l.level == 2 and modules[step-1].smalltitle == "Bank Account Details"%}
+                        <div class="level-{{l.level}}">
+                            {%if l.level == 2 and (l.count == 0 or (l.count == 1 and not meta.is_complete(step-1)))%}
+                               <ul>
+                                    Thank you for providing your registration information up to level 2 and showing trust with Beagle bazzar.
+                                </ul>
+                                <ul>
+                                    Upon submission of the same, it would be subject to review by our team
+                                </ul>
+                                {% if l.level == 1 and l.count == 0 and l.verified_count == 0 %}
+                                {%else%}
+                                <ul>
+                                        And our team will shortly review and approve it. </br>
+                                </ul>
+                                {%endif%}
+                            {%elif l.level == 2 and l.count > 0%}
+                                <ul>
+                                    <font color="Green"> &#10004; </font> <font color="Black"> </font> Your level – 2 registration
+                                    is not
+                                    yet complete, please provide all required information </br>
+                                </ul>
+                            {%else%}
+                            {%endif%}
+                        </div>
+                    {%elif l.level == 3 and ((meta.account_type == 1  and modules[step-1].smalltitle == "Previous Loans Details") or modules[step-1].smalltitle == "Group Company") %}
+                            <div class="level-{{l.level}}">
+                                {%if l.level == 3 and (l.count == 0 or (l.count == 1 and not meta.is_complete(step-1)))%}
+                                    <ul>
+                                    Thank you for providing your registration information up to level 3 and showing trust with Veloce.
+                                </ul>
+                                <ul>
+                                    3Upon submission of the same, it would be subject to review by our team
+                                </ul>
+                                {% if l.level == 1 and l.count == 0 and l.verified_count == 0 %}
+                                {%else%}
+                                <ul>
+                                        And our team will shortly review and approve it. </br>
+                                </ul>
+                                {%endif%}
+                                {%elif l.level == 3 and l.count > 0%}
+                                    <ul>
+                                        <font color="Green"> &#10004; </font> <font color="Black"> </font> Your level – 3 registration
+                                        is not
+                                        yet complete, please provide all required information </br>
+                                    </ul>
+                                {%else%}
+                                {%endif%}
+                            </div>
+                    {%else%}
+                    {%endif%}
+                {%endfor%}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="submitform">OK</button>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endif %}
+{%endblock post%}
+
+{%block style%}
+<link rel="stylesheet" href="/static/sidebar.css">
+
+<style>
+    h1 {
+        margin-top: 50px;
+    }
+    body {
+  padding: 20px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+.preview-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 10000 !important; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.preview-modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation */
+.preview-modal-content, #caption {
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+  from {-webkit-transform:scale(0)}
+  to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .preview-modal-content {
+    width: 100%;
+  }
+}
+
+.required-label {
+    content: "*";
+    color: #da1113;
+}
+
+</style>
+{%endblock style%}
+
+{%block script%}
+<script>
+    $(document).ready(function() {
+        $("#some_flag").dialog('open');
+        $(".ui-widget-overlay").attr('style','background-color: #000; opacity:1; z-index:1000;');
+    });
+    $( function() {
+        $( "#some_flag" ).dialog({
+            modal: true,
+            resizable: false,
+            zIndex: 10000,
+            buttons: {
+                Ok: function() {
+                $( this ).dialog( "close" );
+                },
+                Cancel: function() {
+                $( this ).dialog( "close" );
+                }
+            },
+            position: { my: "center", at: "top" },
+            show: {
+                effect: "blind",
+                duration: 100
+            },
+        });
+    });
+</script>
+<script>
+    if ($("#id_same_as_current_address").length > 0) {
+        $("#id_same_as_current_address").on("click", () => {
+            $("input[type=text], input[type=file], input[type=date], select").attr("disabled", !$("input[type=text], input[type=file], select").attr("disabled"));
+        })
+    }
+
+    /* Ajax for ifsc api added by priya*/
+
+
+
+    if ($("#id_ifsc_code").length > 0) {
+        $("#id_ifsc_code").change(function () {
+        var ifsc_code = $(this).val();    
+        $.ajax({
+        type: 'GET',
+        url: '/bank/ifsc',
+        data: {
+            'ifsc_code': ifsc_code
+        },
+        dataType: 'json',
+        success: function (data) {
+            if(data.length > 0){
+                if($("#id_ifsc_code").parent().siblings('.errorlist').length > 0)
+                        {
+                            $("#id_ifsc_code").parent().siblings('.errorlist').remove();
+                            $('#id_state').prop("disabled", false);
+                            $('#id_branch_name').prop("disabled", false);
+                            $('#id_bank_address').prop("disabled", false);
+                            $('#id_bank_name').prop("disabled", false);
+                        }
+                obj = JSON.parse(data)
+                $("#id_bank_name").val(obj.BANK);
+                // $("#id_bank_name option:selected").value = obj.BANKCODE;
+                $('#id_branch_name').val(obj.BRANCH);
+                $('#id_bank_address').val(obj.ADDRESS);
+                $('#id_bank_address').val(obj.ADDRESS);
+                $("#id_bank_name").attr("readonly", true);
+                $('#id_branch_name').attr("readonly", true);
+                $('#id_bank_address').attr("readonly", true);
+                $("#id_ifsc_code").removeAttr("style");
+            }
+            else{
+                $("#id_bank_name").val('');
+                $('#id_branch_name').val("");
+                $('#id_bank_address').val("");
+                console.log($("#id_ifsc_code").parent())
+                if($("#id_ifsc_code").parent().siblings('.errorlist').length > 0){
+                    $("#id_ifsc_code").parent().siblings('.errorlist').remove();
+                }
+                $("#id_ifsc_code").parent().after('<div class="errorlist">Invalid IFSC code</div>');
+                $("#id_ifsc_code").css({border: "1px solid rgba(255, 99, 71, 0.9)"});
+                $("#id_ifsc_code").css({border: "1px solid rgba(255, 99, 71, 0.9)"});
+                $("#id_bank_name").prop("disabled", true);
+                $('#id_branch_name').prop("disabled", true);
+                $('#id_bank_address').prop("disabled", true);
+            }
+        }
+        });     
+        });
+    }
+
+</script>
+<script>
+    /* For company */
+
+    $('#id_company_register_no').parent().parent('div').css('display', 'block');
+    $('#id_soc').parent().parent('div').css('display', 'none');
+
+    if ($("#id_org_type option:selected").val() == 1 || $("#id_org_type option:selected").val() == 2 || $("#id_org_type option:selected").val() == 3){
+        $('#id_company_register_no').parent().parent('div').css('display', 'block')
+        $('#id_soc').parent().parent('div').css('display', 'none')
+    }
+    else{
+        $('#id_soc').parent().parent('div').css('display', 'block')
+        $('#id_company_register_no').parent().parent('div').css('display', 'none')
+    }
+
+
+        function refreshCompanyNo() {
+            if($('#id_company_register_no').val > 0 || $('#id_soc').val() > 0){
+                $('#id_company_register_no').parent().parent('div').css('display', 'block')
+            }else{
+                $('#id_soc').parent().parent('div').css('display', 'block');
+            }
+            if ($("#id_org_type option:selected").val() == 1 || $("#id_org_type option:selected").val() == 2 || $("#id_org_type option:selected").val() == 3){
+                $('#id_company_register_no').parent().parent('div').css('display', 'block')
+                $('#id_soc').parent().parent('div').css('display', 'none')
+            }
+            else{
+                $('#id_soc').parent().parent('div').css('display', 'block')
+                $('#id_company_register_no').parent().parent('div').css('display', 'none')
+            }
+        }
+
+    $("#id_org_type").on("change", refreshCompanyNo);
+
+</script>
+<script>
+    $(document).ready(function(){
+        if ($("#id_pin_code").length > 0) {
+        $("#id_pin_code").change(function () {
+        var pin_code = $(this).val();
+        $.ajax({
+        type: 'GET',
+        url: '/address/pincode/',
+        data: {
+            'pin_code': pin_code
+        },
+        dataType: 'json',
+        success: function (data) {
+        obj = JSON.parse(data)
+        if(obj.Status=="Success"){
+                if($("#id_pin_code").parent().siblings('.errorlist').length > 0)
+                    {
+                        $("#id_pin_code").parent().siblings('.errorlist').remove();
+                        $('#id_state').prop("disabled", false);
+                    }
+
+                $("#id_city").val(obj.PostOffice[0].District);
+                var state = obj.PostOffice[0].State;
+                $("#id_state option").each(function(){
+                    if($(this).text()==state){ // EDITED THIS LINE
+                        $(this).prop('selected', true);;
+                    }
+                });
+                $("#id_pin_code").removeAttr("style");
+                $("#id_city").attr("disabled", false);
+                $("#id_city").attr("readonly", "readonly");
+                $('#id_state').prop("disabled", true);
+                $(':disabled').each(function(){
+                    $("#state").val($(this).val());
+                });
+        }
+        else{
+<!--                $("#id_pin_code").after('<p>Invalid Pincode.</p>')-->
+
+                if($("#id_pin_code").parent().siblings('.errorlist').length > 0)
+                    {
+                        $("#id_pin_code").parent().siblings('.errorlist').remove();
+                    }
+
+                $("#id_pin_code").parent().after('<div class="errorlist"> Invalid pin code. </div>');
+
+                $("#id_pin_code").css({border: "1px solid rgba(255, 99, 71, 0.9)"});
+                $("#id_city").val("");
+                $("#id_state").val("");
+                $("#id_state option:selected").val("");
+                $("#state").val("");
+                $("#id_city").prop("disabled", "disabled");
+                $('#id_state').prop("disabled", true);
+        }
+        }
+        });
+        });
+    }
+
+    });
+
+function validateMaxLength(e, thisobj, maxlength)
+{
+    var a = [];
+    var length = thisobj.value.length;
+
+    for (i = 48; i < 58; i++){
+        a.push(i);
+    }
+
+    if (length > maxlength){
+        e.preventDefault();
+    }
+}
+<!--company_details.py-->
+
+      $('#id_org_name').keypress(function(e)
+      {
+            validateMaxLength(e, this, '29');
+      });
+      $('#id_org_website').keypress(function(e)
+      {
+            validateMaxLength(e, this, '99');
+      });
+      $('#id_company_register_no').keypress(function(e)
+      {
+            validateMaxLength(e, this, '20');
+      });
+      $('#id_soc').keypress(function(e)
+      {
+            validateMaxLength(e, this, '19');
+      });
+
+<!--company_details.py-->
+<!--identification.py-->
+      $('#id_din').keypress(function(e)
+      {
+            validateMaxLength(e, this, '7');
+      });
+      $('#id_pan_number').keypress(function(e)
+      {
+            validateMaxLength(e, this, '9');
+      });
+      $('#id_aadhar_number').keypress(function(e)
+      {
+            validateMaxLength(e, this, '11');
+      });
+      $('#id_gst_number').keypress(function(e)
+      {
+            validateMaxLength(e, this, '14');
+      });
+      $('#id_passport_no').keypress(function(e)
+      {
+            validateMaxLength(e, this, '7');
+      });
+      $('#id_driving_license_no').keypress(function(e)
+      {
+            validateMaxLength(e, this, '14');
+      });
+
+<!--identification.py-->
+<!--address.py-->
+
+      $('#id_unit_number').keypress(function(e)
+      {
+            validateMaxLength(e, this, '99');
+      });
+      $('#id_street_address').keypress(function(e)
+      {
+            validateMaxLength(e, this, '99');
+      });
+      $('#id_tel_number').keypress(function(e)
+      {
+            validateMaxLength(e, this, '10');
+      });
+      $('#id_pin_code').keypress(function(e)
+      {
+            validateMaxLength(e, this, '5');
+      });
+      $('#id_city').keypress(function(e)
+      {
+            validateMaxLength(e, this, '39');
+      });
+
+<!--address.py-->
+<!--phone.py-->
+
+      $('#id_phone_number').keypress(function(e)
+      {
+            validateMaxLength(e, this, '9');
+      });
+
+<!--phone.py-->
+
+<!--General.py-->
+
+      $('#id_father_husband_no').keypress(function(e)
+      {
+            validateMaxLength(e, this, '19');
+      });
+
+      $('#id_org_name').keypress(function(e)
+      {
+            validateMaxLength(e, this, '29');
+      });
+
+      $('#id_pos_in_company').keypress(function(e)
+      {
+            validateMaxLength(e, this, '19');
+      });
+
+      $('#id_associated_professional_institute').keypress(function(e)
+      {
+            validateMaxLength(e, this, '49');
+      });
+
+      $('#id_registration_number').keypress(function(e)
+      {
+            validateMaxLength(e, this, '14');
+      });
+<!--General.py-->
+
+<!--Bank.py-->
+
+      $('#id_ifsc_code').keypress(function(e)
+      {
+            validateMaxLength(e, this, '10');
+      });
+
+      $('#id_branch_name').keypress(function(e)
+      {
+            validateMaxLength(e, this, '99');
+      });
+
+      $('#id_bank_name').keypress(function(e)
+      {
+            validateMaxLength(e, this, '99');
+      });
+
+      $('#id_bank_address').keypress(function(e)
+      {
+            validateMaxLength(e, this, '199');
+      });
+
+      $('#id_account_no').keypress(function(e)
+      {
+            validateMaxLength(e, this, '19');
+      });
+
+      $('#id_branch_manager_name').keypress(function(e)
+      {
+            validateMaxLength(e, this, '49');
+      });
+
+      $('#branch_manager_email').keypress(function(e)
+      {
+            validateMaxLength(e, this, '49');
+      });
+
+      $('#id_branch_manager_phone_number').keypress(function(e)
+      {
+            validateMaxLength(e, this, '9');
+      });
+
+      $('#id_banking_license_no').keypress(function(e)
+      {
+            validateMaxLength(e, this, '19');
+      });
+
+      $('#id_manager_remark').keypress(function(e)
+      {
+            validateMaxLength(e, this, '199');
+      });
+
+<!--Bank.py-->
+<!--EmploymentDetail-->
+
+  $('#id_working_years_in_company').keypress(function(e)
+  {
+        validateMaxLength(e, this, '3');
+  });
+
+  $('#id_work_experience').keypress(function(e)
+  {
+        validateMaxLength(e, this, '3');
+  });
+
+<!--    # for set decimal digits in intiger-->
+    $(document).on("change", "#id_working_years_in_company",function()
+    {
+        $('#id_working_years_in_company').val(parseFloat($(this).val()).toFixed(1));
+    });
+    $(document).on("change", "#id_work_experience",function()
+    {
+        $('#id_work_experience').val(parseFloat($(this).val()).toFixed(1));
+    });
+
+<!--SanctionedLoan-->
+    $('#id_loan_tenure').keypress(function(e){
+        validateMaxLength(e, this, '1');
+    });
+
+    $('#id_loan_amount').keypress(function(e){
+        validateMaxLength(e, this, '9');
+    });
+
+    $('#id_loan_emi').keypress(function(e){
+        validateMaxLength(e, this, '9');
+    });
+
+<!--SanctionedLoan-->
+<!--BusinessFinancial-->
+
+   $('#id_turnover_revenue').keypress(function(e){
+    console.log("Keypress")
+        validateMaxLength(e, this, '7');
+    });
+
+   $('#id_profit_befor_interest').keypress(function(e){
+        validateMaxLength(e, this, '7');
+    });
+
+   $('#id_interest_expense').keypress(function(e){
+        validateMaxLength(e, this, '7');
+    });
+   $('#id_depreciate').keypress(function(e){
+        validateMaxLength(e, this, '7');
+    });
+   $('#id_tax').keypress(function(e){
+        validateMaxLength(e, this, '7');
+    });
+   $('#id_profite_after_tax').keypress(function(e){
+        validateMaxLength(e, this, '7');
+    });
+
+   $('#id_capital_reserves').keypress(function(e){
+        validateMaxLength(e, this, '7');
+    });
+   $('#id_total_borrowing').keypress(function(e){
+        validateMaxLength(e, this, '7');
+    });
+   $('#id_current_assets').keypress(function(e){
+        validateMaxLength(e, this, '7');
+    });
+   $('#id_current_liablities').keypress(function(e){
+        validateMaxLength(e, this, '7');
+    });
+    $('#id_dependents').keypress(function(e){
+        validateMaxLength(e, this, '1');
+    });
+    $('#id_udyog_aadhar_number').keypress(function(e){
+        validateMaxLength(e, this, '15');
+    });
+
+<!--BusinessFinancial-->
+
+
+</script>
+<script>
+$.fn.fileUploader = function (filesToUpload) {
+    this.closest(".files").change(function (evt) {
+
+        for (var i = 0; i < evt.target.files.length; i++) {
+            filesToUpload.push(evt.target.files[i]);
+        };
+        var output = [];
+
+        for (var i = 0, f; f = evt.target.files[i]; i++) {
+            var removeLink = "<a class=\"removeFile\" href=\"#\" data-fileid=\"" + i + "\">Remove</a>";
+
+            output.push("<li><strong>", escape(f.name), "</strong> - ",
+                f.size, " bytes. &nbsp; &nbsp; ", removeLink, "</li> ");
+        }
+
+        $(this).children(".fileList")
+            .append(output.join(""));
+    });
+};
+
+var filesToUpload = [];
+
+$("#id_udyog_aadhar_card").fileUploader(filesToUpload);
+
+
+
+$(document).ready(function() {
+
+    var account_type = {{meta.account_type}}
+    if(account_type != 3){
+    $("#id_next").click(function(e) {
+        $('#nextModal').modal('show');
+        e.preventDefault();
+        setTimeout(function(){
+            $('#myModal').modal("hide")
+        }, 1000);
+    });
+
+    $("#submitform").click(function(){
+       $(this).closest('form').submit();
+    });
+    }
+    else{
+        $("#id_next").click(function(){
+            $(this).closest('form').submit();
+        });
+    }
+});
+
+if($('#id_month').length){
+    $('#id_month').multiselect({
+        columns: 1,
+        placeholder: 'Select months',
+        selectAll: true
+    });
+}
+</script>
+<script type="text/javascript">
+    $('#id_first_name').val("{{ request.user.first_name }}");
+    $('#id_last_name').val("{{ request.user.last_name }}");
+    $(document).ready(function() {
+
+        if (window.File && window.FileList && window.FileReader) {
+            $("#id_proof").on("change", fileSelection);
+            $("#id_pan_card").on("change", fileSelection);
+            $("#id_aadhar_card").on("change", fileSelection);
+            $("#id_gst_proof").on("change", fileSelection);
+            $("#id_passport").on("change", fileSelection);
+            $("#id_driving_license").on("change", fileSelection);
+            $("#id_voter_id").on("change", fileSelection);
+            $("#id_utility_bill").on("change", fileSelection);
+            $("#id_cancel_cheque").on("change", fileSelection);
+            $("#id_tax_return").on("change", fileSelection);
+            $("#id_balance_sheet").on("change", fileSelection);
+            $("#id_pnl_statement").on("change", fileSelection);
+            $("#id_certified_audit_report").on("change", fileSelection);
+            $("#id_appointment_letter").on("change", fileSelection);
+            $("#id_statement").on("change", fileSelection);
+            $("#id_letter").on("change", fileSelection);
+            $("#id_lender_noc").on("change", fileSelection);
+
+        } else {
+            alert("Your browser doesn't support to File API")
+        }
+
+        function fileSelection(e) {
+                var img = e.target.files;
+                var img_ext = img[0].name.split('.')[1].toLowerCase();
+                if( img_ext == 'png'|| img_ext == 'jpeg'|| img_ext == 'jpg'){
+                    uploadImg(e, $(this).parent().parent());
+                }else{
+                    uploadPdf(e, $(this).parent().parent());
+                }
+            };
+
+
+        function uploadImg(e, location){
+            var files = e.target.files;
+            var filesLength = files.length;
+            for (var i = 0; i < filesLength; i++) {
+                var f = files[i];
+                var fileReader = new FileReader();
+                fileReader.onload = (function(e) {
+                    var file = e.target;
+                    var a=(files[0].size);
+                    console.log("file", location, location.hasClass('invalid'));
+                    if(location.hasClass('invalid')){
+                        $("<div class=\"img-wrap\">" +
+                        "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                        "<span class=\"removeImg\">X</span>" +
+                        "</div>").insertAfter(location.siblings('.errorlist'));
+                    }
+                    else{
+                        $("<div class=\"img-wrap\">" +
+                        "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                        "<span class=\"removeImg\">X</span>" +
+                        "</div>").insertAfter(location);
+                    }
+                    $(".removeImg").click(function(){
+                        $(this).parent(".img-wrap").remove();
+                        if($(".removeImg").length == 0){
+                            $("#id_proof").val('');
+                            $("#id_pan_card").val('');
+                            $("#id_aadhar_card").val('');
+                            $("#id_gst_proof").val('');
+                            $("#id_passport").val('');
+                            $("#id_driving_license").val('');
+                            $("#id_voter_id").val('');
+                            $("#id_utility_bill").val('');
+                            $("#id_cancel_cheque").val('');
+                            $("#id_tax_return").val('');
+                            $("#id_balance_sheet").val('');
+                            $("#id_pnl_statement").val('');
+                            $("#id_certified_audit_report").val('');
+                            $("#id_appointment_letter").val('');
+                            $("#id_statement").val('');
+                            $("#id_letter").val('');
+                            $("#id_lender_noc").val('');
+                        }
+                    });
+                });
+                fileReader.readAsDataURL(f);
+            }
+        }
+
+        function uploadPdf(e, location){
+            var files = e.target.files;
+            var filesLength = files.length;
+            for (var i = 0; i < filesLength; i++) {
+                var f = files[i];
+                var fileReader = new FileReader();
+                fileReader.onload = (function(e) {
+                    var file = e.target;
+                    if(location.hasClass('invalid')){
+                        $("<div class=\"pdf-wrap\">" +
+                        "<i class=\"fa fa-file\" aria-hidden=\"true\"></i>" +
+                        "<a href=\"" + e.target.result + "\" title=\"" + file.name + "\"></a>" +
+                        "<span class=\"removePdf\">X</span>" +
+                        "</div>").insertAfter(location.siblings('.errorlist'));
+                    }
+                    else{
+                        $("<div class=\"pdf-wrap\">" +
+                        "<i class=\"fa fa-file\" aria-hidden=\"true\"></i>" +
+                        "<a href=\"" + e.target.result + "\" title=\"" + file.name + "\"></a>" +
+                        "<span class=\"removePdf\">X</span>" +
+                        "</div>").insertAfter(location);
+                    }
+
+                    $(".removePdf").click(function(){
+                        $(this).parent(".pdf-wrap").remove();
+                        if($(".removePdf").length == 0){
+                            $("#id_proof").val('');
+                            $("#id_pan_card").val('');
+                            $("#id_aadhar_card").val('');
+                            $("#id_gst_proof").val('');
+                            $("#id_passport").val('');
+                            $("#id_driving_license").val('');
+                            $("#id_voter_id").val('');
+                            $("#id_utility_bill").val('');
+                            $("#id_cancel_cheque").val('');
+                            $("#id_tax_return").val('');
+                            $("#id_balance_sheet").val('');
+                            $("#id_pnl_statement").val('');
+                            $("#id_certified_audit_report").val('');
+                            $("#id_appointment_letter").val('');
+
+                            $("#id_statement").val('');
+                            $("#id_letter").val('');
+                            $("#id_lender_noc").val('');
+                        }
+                    });
+                });
+                fileReader.readAsDataURL(f);
+            }
+        }
+
+        $('.main_img_rm').click(function(){
+            var cur_obj = $(this);
+            var col_name = cur_obj.parent().parent().find('input').attr('name');
+            var col_id = cur_obj.parent().parent().data('id');
+            var step = $('#id_step').val();
+            console.log(cur_obj.parent().parent())
+            console.log(col_id)
+            $.ajax({
+                url: '/delete-image-by-id/',
+                data: {id:col_id, name:col_name, step:step},
+                success: function (data) {
+                console.log(data)
+                    if(data.status){
+                        cur_obj.parent().remove();
+                    }
+                },
+                error: function (e) {
+                    console.log("Error", e);
+                }
+
+            });
+        });
+
+    });
+
+
+$(document).ready(function() {
+
+    if (window.File && window.FileList && window.FileReader) {
+        $("#id_salary_slip").on("change", function(e) {
+            var img = e.target.files;
+            var img_ext = img[0].name.split('.')[1].toLowerCase();
+            if( img_ext == 'png'|| img_ext == 'jpeg'|| img_ext == 'jpg'){
+                uploadSalarySlipImg(e, $(this).parent());
+            }else{
+                uploadSalarySlipPdf(e, $(this).parent());
+            }
+        });
+    } else {
+        alert("Your browser doesn't support to File API");
+    }
+
+    function uploadSalarySlipImg(e, location){
+        var files = e.target.files,
+            filesLength = files.length;
+
+        if(filesLength > 6) {
+            alert("You can add only 6 files.");
+            $("#id_salary_slip").val('');
+
+            return false;
+        } else {
+            for (var i = 0; i < filesLength; i++) {
+                var f = files[i];
+                var fileReader = new FileReader();
+                fileReader.onload = (function(e) {
+                    var file = e.target;
+                    $("<div class=\"img-wrap\">" +
+                    "<img class=\"imageThumb\" id='myImg' src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                    "<span class=\"removeImg\">X</span>" +
+                    "</div>").insertAfter(location);
+                    $(".removeImg").click(function(){
+                        $(this).parent(".img-wrap").remove();
+                        if($(".removeImg").length == 0){
+                            $("#id_salary_slip").val('');
+                        }
+                    });
+                });
+                fileReader.readAsDataURL(f);
+            }
+        }
+    }
+
+    function uploadSalarySlipPdf(e, location){
+        var files = e.target.files;
+        var filesLength = files.length;
+
+        if(filesLength > 6) {
+            alert("You can add only 6 files.");
+            $("#id_salary_slip").val('');
+
+            return false;
+        } else {
+            for (var i = 0; i < filesLength; i++) {
+                var f = files[i];
+                var fileReader = new FileReader();
+                fileReader.onload = (function(e) {
+                    var file = e.target;
+                    $("<div class=\"pdf-wrap\">" +
+                    "<i class=\"fa fa-file\" aria-hidden=\"true\"></i>" +
+                    "<a href=\"" + e.target.result + "\" title=\"" + file.name + "\"></a>" +
+                    "<span class=\"removePdf\">X</span>" +
+                    "</div>").insertAfter(location);
+
+                    $(".removePdf").click(function(){
+                        $(this).parent(".pdf-wrap").remove();
+                        if($(".removePdf").length == 0){
+                            $("#id_salary_slip").val('');
+                        }
+                    });
+                });
+                fileReader.readAsDataURL(f);
+            }
+        }
+    }
+});
+
+var modal = document.getElementById("myModal");
+
+
+$(".preview-img").click(function(e) {
+    var img = $(this);
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    captionText.innerHTML = this.alt;
+})
+
+
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+function restrictAlpha(e){
+    var a = [];
+    var k = e.which;
+    var length = $(this).val().length;
+
+    for (i = 48; i < 58; i++)
+        a.push(i);
+
+    if (!(a.indexOf(k)>=0))
+            e.preventDefault();
+}
+
+function restrictNo(e){
+    e = (e) ? e : window.event;
+    var charCode = (e.which) ? e.which : e.keyCode;
+    if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 122)) {
+        return true;
+    }
+    else{ e.preventDefault(); }
+    }
+
+$('#id_loan_emi').keypress('click', restrictAlpha)
+$('#id_phone_number').keypress('click', restrictAlpha)
+$('#id_father_husband_no').keypress('click', restrictNo)
+$('#id_branch_manager_name').keypress('click', restrictNo)
+$('#id_company_name').keypress('click', restrictNo)
+
+$('#id_tel_number').keypress('click', restrictAlpha)
+$('#id_branch_manager_phone_number').keypress('click', restrictAlpha)
+$('#id_dependents').keypress('click', restrictAlpha)
+$('#id_working_years_in_company').keypress('click', restrictAlpha)
+$('#id_work_experience').keypress('click', restrictAlpha)
+
+$(document).ready(function(){
+    $("#id_birthdate").on("keypress", function(){
+        return false;
+    });
+    $("#id_passport_expiry_date").on("keypress", function(){
+        return false;
+    });
+    $("#id_driving_license_expiry_date").on("keypress", function(){
+        return false;
+    });
+    var currentDate = new Date();
+    $("#id_bank_name").attr("readonly", true);
+    $('#id_branch_name').attr("readonly", true);
+    $('#id_bank_address').attr("readonly", true);
+    $('#id_phone_number').parent().removeClass('invalid');
+    if($('#id_phone_number').parent().parent().parent().siblings('.alert-danger').length > 0){
+        $('#id_phone_number').parent().removeClass('is-valid');
+        $('#id_phone_number').parent().addClass('invalid');
+    }
+    else{
+        $('#id_phone_number').parent().removeClass('invalid');
+    }
+    $("#id_city").attr("readonly", true);
+    $("#id_state").attr("disabled", true);
+    $(':disabled').each(function(){
+        $(this).after('<input type="hidden" name="' + $(this).attr('name') + '" id="' + $(this).attr('name') + '" value="' + $(this).val() + '" />');
+    });
+})
+if($('#id_tel_number').prop('required')){
+    $('#id_tel_number').parent().siblings('label').append(
+            $("<span>", {"class": "required-label"}).text("*")
+        );
+}
+$('form input').keydown(function (e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+        return false;
+    }
+});
+</script>
+{%endblock script%}

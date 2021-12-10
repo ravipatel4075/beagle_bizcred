@@ -1,0 +1,68 @@
+{%extends "layouts/auth.html"%}
+
+{%from 'layouts/forms.html' import render_forms%}
+
+{%block content%}
+
+
+<div class="modules">
+    <h1>
+        Overview
+        {%if complete%}
+        ✅
+        {%endif%}
+    </h1>
+    <p class="subtitle">
+        <em>updated on {{meta.updated_at.strftime("%d/%m/%Y")}}</em>
+    </p>
+    {%if meta.profile_reviewed != meta.profile_verified and meta.reject_reason%}
+    <b>Comments:</b>
+    <pre style="font-family: 'Hind', sans-serif; overflow:hidden;">{{meta.reject_reason}}</pre>
+    {%endif%}
+    {%for module in modules%}
+    {%set status = meta.get_status(loop.index-1)%}
+    {{meta.get_status(loop.index-1)}}
+    <div class="module {%if loop.index == step%} active {%endif%}">
+        <h2>{{module.title}}</h2>
+<!--        {%if module.level > 1 %}-->
+<!--        <div class="status-badge">-->
+<!--            Optional-->
+<!--        </div>-->
+<!--        {%endif%}-->
+        <div class="status-badge {{status.lower().replace(' ', '_')}}">
+            {{status}}
+        </div>
+        <br><br>
+
+        {%if module.instance_title%}
+        {%for instance in module.instances(request.user)%}
+        {%if instance.is_complete%}
+        <h3>{{module.instance_title}} {{loop.index}}</h3>
+        {{render_forms(module, request.user, loop.index)}}
+        {%endif%}
+        {%endfor%}
+        {%else%}
+        {{render_forms(module, request.user)}}
+        {%endif%}
+
+        <div class=" status-button">
+            <a href="/step/{{loop.index}}/1">
+                {%if status == 'Incomplete'%}
+                Complete this section
+                {%else%}
+                Update this section
+                {%endif%}
+            </a>
+        </div>
+    </div>
+    <hr>
+    {%endfor%}
+</div>
+<script>
+if(!($('#id_first_name').val() && $('#id_last_name').val())){
+$("#id_first_name").parent().parent('div').css("display", "none");
+$("#id_last_name").parent().parent('div').css("display", "none");
+}
+</script>
+
+{%endblock content%}

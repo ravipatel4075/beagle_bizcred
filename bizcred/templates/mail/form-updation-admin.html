@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+Hello Admin,
+
+{%if user_type == 'INDIVIDUAL' %}
+<p>An {{ user_type | capitalize }} user <b> {{first_name}} {{last_name}} </b> having email id {{ user }} has submitted
+    {{title}} form information which is pending in your tray for review and approval.</p>
+{%elif user_type == 'LENDER' %}
+<!--        <p>An initial registration of a {{ user_type | capitalize }} is done by user having an email id {{ user }} and-->
+<!--            Institution name {{org_name}}. </p>-->
+<p>A Lender user having an email id <b> {{ user }} </b> and Institution name <b> {{org_name}} </b> has submitted the
+    {{title}} form information, which are yet pending to be reviewed and approved.</p> <br/>
+{%else%}
+<p>An {{ user_type | capitalize }} user <b> {{org_name}} </b> having email id {{ user }} has submitted the {{title}} form
+    information which is pending in your tray for review and approval.</p>
+{%endif%}
+<p>
+    <img style="margin:10px;" src="http://www.veloceinnovations.tech/static/logo.png" alt="" class="src">
+    <br>
+    Best Regards, <br>
+    Beagle Bazaar Team <br>
+    <a href="http://www.veloceinnovations.tech/" target="_blank">veloceinnovation.tech</a>
+</p>
+
+</body>
+</html> 

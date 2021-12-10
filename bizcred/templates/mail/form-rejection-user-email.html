@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+
+
+    {%if user_type  == 'LENDER' %}
+
+            Dear {{org_name}},<br/>
+
+            <br/> <p>As per our admin team review of your submitted registration information, some of the information mentioned on
+            {{title}} are either inappropriate or incomplete or not as per requirement.</p>
+
+            <p>Rejection reason: {{reject_reason}}</p>
+            <br />
+            <p>Please correct the information and resubmit the same to complete your registration.</p>
+
+            <p>
+                 <img style="margin:10px;" src="http://www.veloceinnovations.tech/static/logo.png" alt="" class="src">
+                 <br>
+                 Best Regards, <br>
+                 Beagle Bazaar Team <br>
+                        <a href="http://www.veloceinnovations.tech/" target="_blank">veloceinnovation.tech</a>
+            </p>
+    {%else%}
+        Dear {{first_name}} {{last_name}},<br/>
+
+            <br/> <p>As per our admin team review of your submitted registration information, some of the information mentioned on
+            {{title}} are either inappropriate or incomplete or not as per requirement.</p>
+
+            <p>Rejection reason: {{reject_reason}}</p>
+            <br />
+            <p>Please correct the information and resubmit the same to complete your registration.</p>
+
+            <p>
+                <img style="margin:10px;" src="http://www.veloceinnovations.tech/static/logo.png" alt="" class="src">
+                <br>
+                Best Regards, <br>
+                Beagle Team <br>
+    <!--            <a href="http://www.veloceinnovations.tech/" target="_blank">veloce</a>-->
+            </p>
+    {%endif%}
+
+  </body>
+</html>
+
+
+
+

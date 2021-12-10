@@ -1,0 +1,841 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <title>{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST %} {{ data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.NAME }} {% endif %}{% endif %}</title>
+    <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;
+            }
+            .title span {
+                color: #007cae;
+            }
+            /* .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important; */
+                /*margin-left: 40%;*/
+            /* } */
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+            @page {
+                size: a4 portrait;
+                margin: 2.5cm 1.5cm 3.5cm 1.5cm;
+                /* @frame header_frame {
+                    -pdf-frame-content: header_content;
+                    left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+                } */
+                /* @frame content_frame {
+                    left: 50pt;
+                    width: 512pt;
+                    top: 20pt;
+                    height: 740pt;
+                    -pdf-frame-border: 1;
+                     } */
+                /* @frame footer_frame {
+                    -pdf-frame-content: footer_content;
+                    left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+                } */
+            }
+            table, th, td {
+            border: 2px solid white;
+            border-collapse: collapse;
+            }
+            th {
+                color: #003366;
+                background-color:#D0D0D0;
+                text-align: center;
+            }
+            td {
+                text-align: center !important;
+            }
+            tr:nth-child(odd) {
+            background-color: #F0F0F0;
+        }
+    </style>
+</head>
+<body>
+<div class="canvas_div_pdf">
+<!--    <button onclick="download()">Download as PDF</button>-->
+<div class='wrapper' id="pdf_content">
+    <div class='header'>
+        <p>Crif Score For Institution Report ID : {{ data.COMMERCIAL_CREDIT_REPORT.INQUIRY_STATUS.INQUIRY.REPORT_ID }}</p>
+        {%if user_comp_data%}<p>{{user_comp_data.comp_name|upper}}</p>{%endif%}
+        <p>
+            {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT|length > 0%}
+                {{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.NAME}}
+            {%endif%}
+        </p>
+        <hr class='hrItem'/>
+    </div>
+<!--    <div id="footer_content">page <pdf:pagenumber> of <pdf:pagecount>-->
+<!--    </div>-->
+</div>
+
+    <hr class='hrItem'/>
+    <div class="container">
+        {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+            <p style="color: white; background-color: #0f3f6b;"><b>Inquiry Details</b></p>
+            <p style="background-color: #E6E6FA;"><b>Borrower Details</b></p>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">Name:</b>{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %} {{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.NAME}}{%endif%}</div>
+                <div class="col"><b style="color: #3f80ae;">Short Name:</b></div>
+            </div>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">Legal Constitution:</b>{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %} {{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.LEGAL_CONSTITUTION}}{%endif%}</div>
+                <div class="col"><b style="color: #3f80ae;">Applied Amount:</b></div>
+            </div>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">Class of Activity:</b>{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %} {{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.NAME}}{%endif%}</div>
+                <div class="col"><b style="color: #3f80ae;">Applied for:</b> </div>
+            </div>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">CIN/LLPIN:</b>{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %} {{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.CIN}}{%endif%}</div>
+                <div class="col"><b style="color: #3f80ae;">PAN:</b>{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %} {{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.PAN}}{%endif%}</div>
+            </div>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">Phone:</b> {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %} {% for x in phone_list %} {{ data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST[x] }} {%endfor%}{%endif%}</div>
+                <div class="col"></div>
+            </div>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">Address(es):</b></div>
+                <div class="row">
+                    <div class="col"><b style="color: #3f80ae;">Registered:</b> {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %} {{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.REQUEST.ADDRESS_1}}{%endif%}</div>
+                    <div class="col"><b style="color: #3f80ae;">DUNS:</b></div>
+                    <div class="col"><b style="color: #3f80ae;">TAN/TIN:</b></div>
+                </div>
+            </div>
+            <hr class='hrItem'/>
+            <div>
+                <p style="color: white; background-color: #0f3f6b;"><b>CRIF HIGH MARK SCORE(S):</b></p>
+                <table class="container">
+                    <tr>
+                        <th>SCORE NAME</th>
+                        <th>SCORE</th>
+                        <th>DESCRIPTION</th>
+                    </tr>
+                    {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                    <tr style="background-color: #E6E6FA;"">
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.SCORES.SCORE.SCORE_TYPE}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.SCORES.SCORE.SCORE_VALUE}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.SCORES.SCORE.SCORE_COMMENTS}}</td>
+                    </tr>
+                    {%endif%}
+                </table>
+            </div>
+            <br />
+            <div>
+                <p style="color: white; background-color: #0f3f6b;"><b>Borrower Summary</b></p>
+                <table class="container">
+                    <tr style="color: white; background-color: #3f80ae;">
+                        <th>Lender(#)</th>
+                        <th>Total Accts(#)</th>
+                        <th>Live Accts(#)</th>
+                        <th>Delinquent Accts(#) *</th>
+                        <th>Sanctioned Amt *</th>
+                        <th>Outstanding Amt *</th>
+                        <th>Overdue Amt *</th>
+                        <th>PAR *(90+)</th>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; background-color: #E6E6FA;" colspan="8"><b>Your Institution</b></td>
+                    </tr>
+                    {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                    <tr>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OWN_BORROWER_SUMMARY.LENDER}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OWN_BORROWER_SUMMARY.TOTALACCTS}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OWN_BORROWER_SUMMARY.OWN_ACTIVE_ACC_CNT}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OWN_BORROWER_SUMMARY.OWN_DELINQUENT_ACC_CNT}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OWN_BORROWER_SUMMARY.OWN_TOTAL_SANCTIONED_AMOUNT}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OWN_BORROWER_SUMMARY.OWN_TOTAL_OUTSTANDING_AMOUNT}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OWN_BORROWER_SUMMARY.OWN_TOTAL_OVERDUE_AMOUNT}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OWN_BORROWER_SUMMARY.OWN_TOTAL_PAR_AMOUNT}}</td>
+                    </tr>
+                    {%endif%}
+                    <tr>
+                        <td style="text-align: center; background-color: #E6E6FA;" colspan="8"><b>Other Institution</b></td>
+                    </tr>
+                    {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                    <tr>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OTHER_BORROWER_SUMMARY.LENDER}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OTHER_BORROWER_SUMMARY.TOTALACCTS}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OTHER_BORROWER_SUMMARY.OTHER_ACTIVE_ACC_CNT}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OTHER_BORROWER_SUMMARY.OTHER_DELINQUENT_ACC_CNT}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OTHER_BORROWER_SUMMARY.OTHER_TOTAL_SANCTIONED_AMOUNT}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OTHER_BORROWER_SUMMARY.OTHER_TOTAL_OUTSTANDING_AMOUNT}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OTHER_BORROWER_SUMMARY.OTHER_TOTAL_OVERDUE_AMOUNT}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.OTHER_BORROWER_SUMMARY.OTHER_TOTAL_PAR_AMOUNT}}</td>
+                    </tr>
+                    {%endif%}
+                </table>
+                {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                <div class="container">
+                    <div class="row" style="background-color:#E8E8E8;">
+                        <div class="col-3"><b style="color: #3f80ae;">Length of Credit History:</b>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.DERIVED_ATTRIBUTES.LENGTH_OF_CREDIT_HISTORY_YEAR}}(yrs)/{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.DERIVED_ATTRIBUTES.LENGTH_OF_CREDIT_HISTORY_MONTH}}(mnths)</div>
+                        <div class="col-3"><b style="color: #3f80ae;">Profile In Last 12 Months >>> </b></div>
+                        <div class="col"><b style="color: #3f80ae;">New Accts:</b>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.DERIVED_ATTRIBUTES.NEW_ACCOUNTS_IN_LAST_TWELVE_MONTHS}}</div>
+                        <div class="col"><b style="color: #3f80ae;">Closed Accts:</b>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.DERIVED_ATTRIBUTES.CLOSED_ACCOUNTS_IN_LAST_TWELVE_MONTHS}}</div>
+                        <div class="col"><b style="color: #3f80ae;">New Delinquent Accts:</b>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.BORROWER_SUMMARY.DERIVED_ATTRIBUTES.NEW_DELINQ_ACCOUNT_IN_LAST_TWELVE_MONTHS}}</div>
+                    </div>
+                </div>
+                {%endif%}
+            </div>
+            <br />
+            <div>
+                <p style="color: white; background-color: #0f3f6b;"><b>Credit Profile Summary</b></p>
+                <table class="container">
+                    <thead>
+                        <tr>
+                            <th>Asset Class</th>
+                            <th colspan="2">STD</th>
+                            <th colspan="2">SMA</th>
+                            <th colspan="2">SUB</th>
+                            <th colspan="2">DBT</th>
+                            <th colspan="2">LOS</th>
+                            <th colspan="5">Inquiries (recent months)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Credit Facility Group</th>
+                            <th>Acct(#)</th>
+                            <th>O/S Amt</th>
+                            <th>Acct(#)</th>
+                            <th>O/S Amt</th>
+                            <th>Acct(#)</th>
+                            <th>O/S Amt</th>
+                            <th>Acct(#)</th>
+                            <th>O/S Amt</th>
+                            <th>Acct(#)</th>
+                            <th>O/S Amt</th>
+                            <th><3 m</th>
+                            <th>3-6 m</th>
+                            <th>6-9 m</th>
+                            <th>9-12 m</th>
+                            <th>>12 m</th>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; background-color: #E6E6FA;" colspan="16"><b>Your Institution</b></td>
+                        </tr>
+                        {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                        {% for ocp_sum in data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.CREDIT_PROFILE_SUMMARY.OWN_CREDIT_PROFILE_SUMMARY_LIST.OWN_CREDIT_PROFILE_SUMMARY %}
+                            <tr>
+                                <td>
+                                    {% if 'CREDIT_FACILITY_GROUP' in ocp_sum %} {{ ocp_sum['CREDIT_FACILITY_GROUP'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'STANDARD_ACC_CNT' in ocp_sum %} {{ ocp_sum['STANDARD_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'STANDARD_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['STANDARD_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SPECIAL_MENTION_ACC_CNT' in ocp_sum %} {{ ocp_sum['SPECIAL_MENTION_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SPECIAL_MENTION_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['SPECIAL_MENTION_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SUB_STANDARD_ACC_CNT' in ocp_sum %} {{ ocp_sum['SUB_STANDARD_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SUB_STANDARD_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['SUB_STANDARD_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'DOUBTFUL_ACC_CNT' in ocp_sum %} {{ ocp_sum['DOUBTFUL_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'DOUBTFUL_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['DOUBTFUL_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'LOSS_ACC_CNT' in ocp_sum %} {{ ocp_sum['LOSS_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'LOSS_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['LOSS_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'ENQUIRY_CNT_LAST_THREE_MNTHS' in ocp_sum %} {{ ocp_sum['ENQUIRY_CNT_LAST_THREE_MNTHS'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'ENQUIRY_CNT_BETWEEN_THREE_TO_SIX_MNTHS' in ocp_sum %} {{ ocp_sum['ENQUIRY_CNT_BETWEEN_THREE_TO_SIX_MNTHS'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'ENQUIRY_CNT_BETWEEN_SIX_TO_NINE_MNTHS' in ocp_sum %} {{ ocp_sum['ENQUIRY_CNT_BETWEEN_SIX_TO_NINE_MNTHS'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'ENQUIRY_CNT_BETWEEN_NINE_TO_TWELVE_MNTHS' in ocp_sum %} {{ ocp_sum['ENQUIRY_CNT_BETWEEN_NINE_TO_TWELVE_MNTHS'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'ENQUIRY_CNT_MORE_THAN_TWELVE_MNTHS' in ocp_sum %} {{ ocp_sum['ENQUIRY_CNT_MORE_THAN_TWELVE_MNTHS'] }} {% else %} - {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        {% endif %}
+                        <tr>
+                            <td style="text-align: center; background-color: #E6E6FA;" colspan="16"><b>Other Institution</b></td>
+                        </tr>
+                        {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                        {% for ocp_sum in data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.CREDIT_PROFILE_SUMMARY.OTHER_CREDIT_PROFILE_SUMMARY_LIST.OTHER_CREDIT_PROFILE_SUMMARY %}
+                            <tr>
+                                <td>
+                                    {% if 'CREDIT_FACILITY_GROUP' in ocp_sum %} {{ ocp_sum['CREDIT_FACILITY_GROUP'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'STANDARD_ACC_CNT' in ocp_sum %} {{ ocp_sum['STANDARD_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'STANDARD_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['STANDARD_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SPECIAL_MENTION_ACC_CNT' in ocp_sum %} {{ ocp_sum['SPECIAL_MENTION_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SPECIAL_MENTION_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['SPECIAL_MENTION_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SUB_STANDARD_ACC_CNT' in ocp_sum %} {{ ocp_sum['SUB_STANDARD_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SUB_STANDARD_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['SUB_STANDARD_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'DOUBTFUL_ACC_CNT' in ocp_sum %} {{ ocp_sum['DOUBTFUL_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'DOUBTFUL_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['DOUBTFUL_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'LOSS_ACC_CNT' in ocp_sum %} {{ ocp_sum['LOSS_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'LOSS_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['LOSS_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'ENQUIRY_CNT_LAST_THREE_MNTHS' in ocp_sum %} {{ ocp_sum['ENQUIRY_CNT_LAST_THREE_MNTHS'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'ENQUIRY_CNT_BETWEEN_THREE_TO_SIX_MNTHS' in ocp_sum %} {{ ocp_sum['ENQUIRY_CNT_BETWEEN_THREE_TO_SIX_MNTHS'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'ENQUIRY_CNT_BETWEEN_SIX_TO_NINE_MNTHS' in ocp_sum %} {{ ocp_sum['ENQUIRY_CNT_BETWEEN_SIX_TO_NINE_MNTHS'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'ENQUIRY_CNT_BETWEEN_NINE_TO_TWELVE_MNTHS' in ocp_sum %} {{ ocp_sum['ENQUIRY_CNT_BETWEEN_NINE_TO_TWELVE_MNTHS'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'ENQUIRY_CNT_MORE_THAN_TWELVE_MNTHS' in ocp_sum %} {{ ocp_sum['ENQUIRY_CNT_MORE_THAN_TWELVE_MNTHS'] }} {% else %} - {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div>
+                <p style="color: white; background-color: #0f3f6b;"><b>Additional Status</b></p>
+                <table class="container">
+                    <thead>
+                        <tr>
+                            <th>Derog Status</th>
+                            <th colspan="2">Suit-filed</th>
+                            <th colspan="2">Written-Off</th>
+                            <th colspan="2">Wilful Defaulter </th>
+                            <th colspan="2">Restructured</th>
+                            <th colspan="2">Invoked</th>
+                            <th colspan="2">Devolved</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Recency</th>
+                            <th>Acct(#)</th>
+                            <th>O/S Amt</th>
+                            <th>Acct(#)</th>
+                            <th>O/S Amt</th>
+                            <th>Acct(#)</th>
+                            <th>O/S Amt</th>
+                            <th>Acct(#)</th>
+                            <th>O/S Amt</th>
+                            <th>Acct(#)</th>
+                            <th>O/S Amt</th>
+                            <th>Acct(#)</th>
+                            <th>O/S Amt</th>
+
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; background-color: #E6E6FA;" colspan="16"><b>Your Institution</b></td>
+                        </tr>
+                        {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                        {% for ocp_sum in data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITION_STATUS_SUMMARY.OWN_ADDITION_STATUS_SUMMARY_LIST.OWN_ADDITION_STATUS_SUMMARY %}
+                            <tr>
+                                <td>
+                                    {% if 'RECENCY_IN_MONTHS' in ocp_sum %} {{ ocp_sum['RECENCY_IN_MONTHS'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SUITFILED_ACC_CNT' in ocp_sum %} {{ ocp_sum['SUITFILED_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SUITFILED_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['SUITFILED_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'WRITTEN_OFF_ACC_CNT' in ocp_sum %} {{ ocp_sum['WRITTEN_OFF_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'WRITTEN_OFF_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['WRITTEN_OFF_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'WILFUL_DEFAULTER_ACC_CNT' in ocp_sum %} {{ ocp_sum['WILFUL_DEFAULTER_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'WILFUL_DEFAULTER_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['WILFUL_DEFAULTER_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'RESTRUCTRED_ACC_CNT' in ocp_sum %} {{ ocp_sum['RESTRUCTRED_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'RESTRUCTRED_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['RESTRUCTRED_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'INVOKED_ACC_CNT' in ocp_sum %} {{ ocp_sum['INVOKED_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'INVOKED_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['INVOKED_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'DEVOLVED_ACC_CNT' in ocp_sum %} {{ ocp_sum['DEVOLVED_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'DEVOLVED_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['DEVOLVED_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        {% endif %}
+                        <tr>
+                            <td style="text-align: center; background-color: #E6E6FA;" colspan="16"><b>Other Institution</b></td>
+                        </tr>
+                        {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                        {% for ocp_sum in data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITION_STATUS_SUMMARY.OTHER_ADDITION_STATUS_SUMMARY_LIST.OTHER_ADDITION_STATUS_SUMMARY %}
+                        <tr>
+                                <td>
+                                    {% if 'RECENCY_IN_MONTHS' in ocp_sum %} {{ ocp_sum['RECENCY_IN_MONTHS'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SUITFILED_ACC_CNT' in ocp_sum %} {{ ocp_sum['SUITFILED_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'SUITFILED_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['SUITFILED_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'WRITTEN_OFF_ACC_CNT' in ocp_sum %} {{ ocp_sum['WRITTEN_OFF_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'WRITTEN_OFF_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['WRITTEN_OFF_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'WILFUL_DEFAULTER_ACC_CNT' in ocp_sum %} {{ ocp_sum['WILFUL_DEFAULTER_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'WILFUL_DEFAULTER_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['WILFUL_DEFAULTER_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'RESTRUCTRED_ACC_CNT' in ocp_sum %} {{ ocp_sum['RESTRUCTRED_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'RESTRUCTRED_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['RESTRUCTRED_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'INVOKED_ACC_CNT' in ocp_sum %} {{ ocp_sum['INVOKED_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'INVOKED_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['INVOKED_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'DEVOLVED_ACC_CNT' in ocp_sum %} {{ ocp_sum['DEVOLVED_ACC_CNT'] }} {% else %} - {% endif %}
+                                </td>
+                                <td>
+                                    {% if 'DEVOLVED_OUTSTANDING_AMOUNT' in ocp_sum %} {{ ocp_sum['DEVOLVED_OUTSTANDING_AMOUNT'] }} {% else %} - {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div>
+                <p style="color: white; background-color: #0f3f6b;"><b>New Credit Facilities (In last 12 months)</b></p>
+                <table class="container">
+                    <thead>
+                        <tr>
+                            <th>Sanctioned Amt</th>
+                            <th colspan="2">25 lac or less</th>
+                            <th colspan="2">25 lac - 2 cr</th>
+                            <th colspan="2">2 cr - 5 cr</th>
+                            <th colspan="2">5 cr - 20 cr</th>
+                            <th colspan="2">20 cr - 50 cr</th>
+                            <th colspan="2">50 cr - 100 cr</th>
+                            <th colspan="2"> 100 cr or more</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Credit Facility Group</th>
+                            <th>STD</th>
+                            <th>DEL</th>
+                            <th>STD</th>
+                            <th>DEL</th>
+                            <th>STD</th>
+                            <th>DEL</th>
+                            <th>STD</th>
+                            <th>DEL</th>
+                            <th>STD</th>
+                            <th>DEL</th>
+                            <th>STD</th>
+                            <th>DEL</th>
+                            <th>STD</th>
+                            <th>DEL</th>
+
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; background-color: #E6E6FA;" colspan="16"><b>Your Institution</b></td>
+                        </tr>
+                        {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                        {% for ocp_sum in data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.NEW_CREDIT_FACILITY_SUMMARY.OWN_NEW_CREDIT_FACILITY_SUMMARY_LIST.OWN_NEW_CREDIT_FACILITY_SUMMARY %}
+                            <tr>
+                                <td>
+                                    {{ ocp_sum['CREDIT_FACILITY_GROUP'] }}
+                                </td>
+                                {% for cf in ocp_sum['NEW_CREDIT_FACILITY'] %}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '25 lac or less' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '25 lac _ 2 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '2 cr _ 5 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '5 cr _ 20 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '20 cr _ 50 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '50 cr _ 100 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == 'more than 100 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        {% endif %}
+                        <tr>
+                            <td style="text-align: center; background-color: #E6E6FA;" colspan="15"><b>Other Institution</b></td>
+                        </tr>
+                        {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                        {% for ocp_sum in data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.NEW_CREDIT_FACILITY_SUMMARY.OTHER_NEW_CREDIT_FACILITY_SUMMARY_LIST.OTHER_NEW_CREDIT_FACILITY_SUMMARY %}
+                            <tr>
+                                <td>
+                                    {{ ocp_sum['CREDIT_FACILITY_GROUP'] }}
+                                </td>
+                                {% for cf in ocp_sum['NEW_CREDIT_FACILITY'] %}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '25 lac or less' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '25 lac _ 2 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '2 cr _ 5 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '5 cr _ 20 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '20 cr _ 50 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == '50 cr _ 100 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                    {% if cf['SANCTIONED_AMOUNT_RANGE'] == 'more than 100 cr' %}
+                                        <td>{{cf['STANDARD_ACC_CNT']}}</td>
+                                        <td>{{cf['DELINQUENT_ACC_CNT']}}</td>
+                                    {%endif%}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div>
+                <p style="color: white; background-color: #0f3f6b;"><b>Top 5 Non-Standard Facilities (reported for past 24 months)</b></p>
+                <table class="container">
+                    <tr style="color: white; background-color: #3f80ae;">
+                        <th>Reported Date</th>
+                        <th>Lender</th>
+                        <th>Credit Facility Type</th>
+                        <th>First Delinq Dt</th>
+                        <th>Sanctioned Date</th>
+                        <th>Sanctioned Amt</th>
+                        <th>O/S Amt</th>
+                        <th>DPD/Asset Class</th>
+                        <th>Overdue Amt/Writeoff Amt</th>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; background-color: #E6E6FA;" colspan="9"><b>Your Institution</b></td>
+                    </tr>
+                    {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                    {{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.TOP_FIVE_DELINQUENT_TRADELINES_LIST}}
+                    <tr>
+                        <td style="text-align: center; background-color: #E6E6FA;" colspan="9"><b>Your Institution</b></td>
+                    </tr>
+                    {%endif%}
+                </table>
+            </div>
+            <br />
+            <div>
+                <p style="color: white; background-color: #0f3f6b;"><b>Firmographic Data</b></p>
+                <p style="background-color: #E6E6FA;"><b>Company's Key Details</b></p>
+                <table class="container">
+                    <tr style="color: white; background-color: #3f80ae;">
+                        <th style="border: none;">Company Name</th>
+                        <th style="border: none;">CIN#</th>
+                        <th style="border: none;">Incorp. Year</th>
+                        <th style="border: none;">Category</th>
+                        <th style="border: none;">City(State)</th>
+                        <th style="border: none;">Directors</th>
+                    </tr>
+                    {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                    {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ROC_DATA_LIST %}
+                    <tr>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ROC_DATA_LIST.ROC_INFO_COMPANY_DETAILS.ROC_INFO_COMPANY_DETAIL.COMPANY_NAME}} <br /> <b style="color: green;">({{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ROC_DATA_LIST.ROC_INFO_COMPANY_DETAILS.ROC_INFO_COMPANY_DETAIL.COMPANY_STATUS}})</b></td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ROC_DATA_LIST.ROC_INFO_COMPANY_DETAILS.ROC_INFO_COMPANY_DETAIL.COMPANY_CIN}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ROC_DATA_LIST.ROC_INFO_COMPANY_DETAILS.ROC_INFO_COMPANY_DETAIL.COMPANY_INCORP_DT}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ROC_DATA_LIST.ROC_INFO_COMPANY_DETAILS.ROC_INFO_COMPANY_DETAIL.COMPANY_INDUSTRY}}</td>
+                        <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ROC_DATA_LIST.ROC_INFO_COMPANY_DETAILS.ROC_INFO_COMPANY_DETAIL.COMPANY_CITY_STATE}}</td>
+                        <td>
+                            {% for dir in data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ROC_DATA_LIST.ROC_INFO_COMPANY_DETAILS.ROC_INFO_COMPANY_DETAIL.COMPANY_DIRECTORS.DIRECTOR_ENTITY %}
+                                {{dir['DIRECTOR_NAME']}}<br />
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {%endif%}
+                    {%endif%}
+                </table>
+                <br />
+                <p style="background-color: #E6E6FA;"><b>Index of Charges</b></p>
+                <table class="container">
+                    <tr style="color: white; background-color: #3f80ae;">
+                        <th style="border: none;">Charge Holder</th>
+                        <th style="border: none;">CIN#</th>
+                        <th style="border: none;">Charge #</th>
+                        <th style="border: none;">Date of Charge (Create/Modify)</th>
+                        <th style="border: none;">Charge Amount(Cr)</th>
+                    </tr>
+                </table>
+                <br />
+                <p style="background-color: #E6E6FA;"><b>Company Information - Similar Identifiers</b></p>
+                <p style="text-align: center; border-bottom-style: solid; border-bottom-color: #a7cbe3; border-width: 3px;"><b>None</b></p>
+            </div>
+            <br />
+            <div>
+                <p style="color: white; background-color: #0f3f6b;"><b>Relationship Details</b></p>
+                <table class="container">
+                    <tr style="color: white; background-color: #3f80ae;">
+                        <th>Name</th>
+                        <th>Nature of Relationship</th>
+                        <th>Type of Relationship</th>
+                        <th>DOI/DOB</th>
+                        <th>ID(s)</th>
+                        <th>Address(es)</th>
+                    </tr>
+                    {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                    {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.RELATIONSHIP_DETAILS %}
+                    {% for rel_detail in data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.RELATIONSHIP_DETAILS.RELATIONSHIP %}
+                        <tr>
+                            <td>{{rel_detail['NAME']}}</td>
+                            <td>{{rel_detail['NATURE_OF_RELATION']}}</td>
+                            <td>{{rel_detail['TYPE_OF_RELATION']}}</td>
+                            <td>{%if rel_detail['DOB'] %}{{rel_detail['DOB']}}{%endif%}</td>
+                            <td>{%if rel_detail['DOB'] %}{{rel_detail['DOB']}}{%endif%}</td>
+                            <td>
+                                {% for add in rel_detail['RELATION_ADDRESSES']%}
+                                    {{rel_detail['RELATION_ADDRESSES']['RELATION_ADDRESS']['ADDRESS']}}
+                                {%endfor%}
+                            </td>
+                        </tr>
+                    {% endfor%}
+                    {% endif%}
+                    {% endif%}
+                </table>
+            </div>
+            <br />
+            <div>
+                <p style="color: white; background-color: #0f3f6b;"><b>Account/ Trade History</b></p>
+                {{cur_bal_his|safe}}
+            </div>
+            <br />
+            <div>
+                <p style="color: white; background-color: #0f3f6b;"><b>Inquiries (reported for past 24 months)</b></p>
+                <table class="container">
+                    <tr style="color: white;">
+                        <th>Member Name </th>
+                        <th>Date of Inquiry</th>
+                        <th>Purpose</th>
+                        <th>Ownership Type</th>
+                        <th>Amount</th>
+                        <th>Remark</th>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <div>
+                <p style="color: white; background-color: #0f3f6b;"><b>Additional Inquiry Details</b></p>
+                <p style="background-color: #E6E6FA;"><b>Related Individual(s)</b></p>
+                {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT %}
+                {{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.PAN}}
+                {% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY %}
+                    <table class="container">
+                        <tr style="color: white;">
+                            <th>Name</th>
+                            <th>Relationship Type</th>
+                            <th>DOB</th>
+                            <th>ID(S)</th>
+                            <th>Phone #</th>
+                            <th>Email(s)</th>
+                            <th>Address(es)</th>
+                        </tr>
+                        <tr>
+                            <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.PAN}}</td>
+                            <td>{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.RELATIONSHIP_TYPE}}</td>
+                            <td>{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.DOB %}{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.DOB}}{%endif%}</td>
+                            <td>{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.PAN %}PAN:{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.PAN}}{%endif%}</td>
+                            <td>{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.PHONE %}{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.PHONE}}{%endif%}</td>
+                            <td>{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.EMAIL %}{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.EMAIL}}{%endif%}</td>
+                            <td>{% if data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.ADDRESS1 %}Current:{{data.COMMERCIAL_CREDIT_REPORT.COMMERCIAL_REPORT.ADDITIONAL_INQUIRY_DETAILS.RELATED_INDIVIDUAL.ENTITY.ADDRESS1}}{%endif%}</td>
+                        </tr>
+                    </table>
+                {% endif %}
+                {% endif %}
+                <br />
+                <p style="background-color: #E6E6FA;"><b>Related Organisation(s)</b></p>
+                    <p style="text-align: center; border-bottom-style: solid; border-bottom-color: #a7cbe3; border-width: 3px;"><b>None</b></p>
+            </div>
+            <br />
+        {%else%}
+            <p style="color: white; background-color: #0f3f6b;"><b>Inquiry Details</b></p>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">Name:</b>{{ user_comp_data.comp_name|upper }}</div>
+            </div>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">Legal Constitution:</b>Private Limited</div>
+            </div>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">Class of Activity:</b>{{ user_comp_data.comp_name|upper }}</div>
+            </div>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">CIN/LLPIN:</b>{{ user_comp_data.llpin }}</div>
+            </div>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">Phone:</b>{{ user_comp_data.phone }}</div>
+            </div>
+            <div class="row">
+                <div class="col"><b style="color: #3f80ae;">PAN:</b>{{ user_comp_data.pan }}</div>
+            </div>
+            <br />
+            <p style="color: white; background-color: #0f3f6b;"><b>Inquiry Status</b></p>
+            <p style="text-align: center; border-bottom-style: solid; border-bottom-color: red; color: red; border-width: 3px;"><b>Null!</b></p>
+        {%endif%}
+    </div>
+</div>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.min.js"></script>
+<script>
+    /* var doc = new jsPDF();
+    var elementHandler = {
+    '#ignorePDF': function (element, renderer) {
+        return true;
+    }
+    };
+    var source = $('#pdf_content').html();
+    doc.fromHTML(
+        source,
+        15,
+        15,
+        {
+        'width': 180,'elementHandlers': elementHandler
+        });
+
+    doc.save("HTML-Document.pdf"); */
+
+    /* function getPDF(){
+        var HTML_Width = $(".canvas_div_pdf").width();
+        var HTML_Height = $(".canvas_div_pdf").height();
+        var top_left_margin = 5;
+        var PDF_Width = HTML_Width+(top_left_margin*2);
+        var PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
+        var canvas_image_width = HTML_Width;
+        var canvas_image_height = HTML_Height;
+
+        var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
+
+
+        html2canvas($(".canvas_div_pdf")[0],{allowTaint:true}).then(function(canvas) {
+            canvas.getContext('2d');
+            
+            console.log(canvas.height+"  "+canvas.width);
+            
+            
+            var imgData = canvas.toDataURL("image/jpeg", 1.0);
+            var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+            pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
+            
+            
+            for (var i = 1; i <= totalPDFPages; i++) { 
+                pdf.addPage(PDF_Width, PDF_Height);
+                pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+            }
+            
+            pdf.save("HTML-Document.pdf");
+        });
+    }; */
+</script>

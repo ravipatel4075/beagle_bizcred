@@ -1,0 +1,99 @@
+{%extends "layouts/auth.html"%}
+
+
+{%block content%}
+<form method='POST' enctype="multipart/form-data" id="SaveForm" novalidate>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}">
+
+    {%block pre%}{%endblock pre%}
+
+    {% if error or form.non_field_errors() %}
+    <br>
+    <div class="alert alert-danger" role="alert">
+        {%if error%}{{error}}{%endif%}
+        {{' '.join(form.non_field_errors())}}
+    </div>
+    {% elif success %}
+    <br>
+    <div class="alert alert-success" role="alert">
+        {{success}}
+    </div>
+    {%endif%}
+
+    <div class="fields {%if step > 1 %} {%if counter > 0 %} fields-incomplete {%endif%}{%endif%}">
+        {% for field in form %}
+            {% if not field.is_hidden %}
+            <div class='bizcred-form-control {% if not form.half or field.html_name not in form.half %} full {% endif %}'>
+                {% if form.is_bound %}
+                <label for="{{field.id_for_label }}">{{field.label|safe}}</label>
+                    {% if field.errors %}
+                    <div class='flex invalid'>
+                        {{field}}
+                    </div>
+
+                    <div class="errorlist">
+                        {{' '.join(field.errors)}}
+                    </div>
+                    {% else %}
+                    <div class='flex {% if field.data != "" %}is-valid {%endif%}'>
+                        {{field}}
+                    </div>
+                    {%endif%}
+                {% else %}
+                <label for="{{field.id_for_label }}">{{field.label|safe}}</label>
+                {% if form.instance %}
+                    <div class='flex' data-id="{{ form.instance.id }}/{{form.instance._meta}}">
+                        {{field}}
+                    </div>
+                {%else%}
+                    <div class='flex'>
+                        {{field}}
+                    </div>
+                {%endif%}
+                <div>
+                    <i><small>{{ field.help_text }}</small> </i>
+                </div>
+                {%endif%}
+            </div>
+        {%else%}
+            {{field}}
+        {%endif%}
+        {% endfor %}
+    </div>
+<!--    For Resend OTP-->
+    {% if 'otp' in form.fields %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"> &times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if form.errors %}
+            <a href="/resend-otp/"  class="btn btn-primary">Resend OTP</a>
+        {% endif %}
+    {%else%}
+        {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"> &times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+        {% endfor %}
+    {% endif %}
+    <br><br>
+
+    {%block post%}{%endblock post%}
+
+    <br><br><br><br>
+</form>
+
+{%block style%}{%endblock style%}
+{%block script%}{%endblock script%}
+
+{%endblock content%}

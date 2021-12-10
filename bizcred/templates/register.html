@@ -1,0 +1,66 @@
+{%extends "layouts/unauth-form.html"%}
+
+{%block post%}
+<input type="button" id="Submit" value="Submit" class="btn btn-primary">
+
+<!-- Modal add for Register popup message display-->
+<div class="modal fade" id="RegModal" tabindex="-1" role="dialog" aria-labelledby="RegModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><font color="Green"> Register Note!! </font></h5>
+            </div>
+            <div class="modal-body" id="RegModalData"><font color="Black"> </font>
+
+                <font color="Green"> &#10004; </font> <font color="Black"> </font> Beagle Terms and Condition
+                Description</br>
+                <ul>
+                    <font color="Green"> &#10004; </font> <font color="Black"> </font> “We publish the Beagle Bazaar
+                    Terms
+                    of Service so that you know what to expect as you use our services. By being agree, you agree to
+                    these
+                    terms”</br>
+                    <font color="Green"> &#10004; </font> <font color="Black"> </font> “You are also agreeing to the
+                    Beagle
+                    Fintech Terms of service whenever you try to utilize a specialized finance service by providing
+                    required
+                    information and documentation for the same”</br>
+                    <font color="Green"> &#10004; </font> <font color="Black"> </font> “And remember, the Beagle Privacy
+                    Policy describes how Beagle handles information generated as you use Beagle Bazaar and / or Beagle
+                    Fintech services."</br>
+                </ul>
+                </li>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancel" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="register">Register</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#Submit').click(function(){
+            $('#RegModal').modal('show');
+        });
+        $('#register').click(function(){
+            $(this).closest("form").submit();
+            $('#RegModal').modal('hide');
+        });
+        $('#cancel').click(function(){
+            $(this).closest("form").reset();
+            $('#RegModal').modal('hide');
+        });
+    });
+</script>
+{%endblock post%}

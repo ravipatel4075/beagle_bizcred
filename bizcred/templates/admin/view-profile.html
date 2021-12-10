@@ -1,0 +1,85 @@
+{%extends "layouts/base.html"%}
+
+{%from 'layouts/forms.html' import render_forms%}
+
+{%block main%}
+
+<link rel="stylesheet" href="/static/sidebar.css">
+
+
+<style>
+    .modules {
+        padding: 25px;
+    }
+
+    h2,
+    h1 {
+        margin-bottom: 0;
+        margin-top: 25px;
+    }
+</style>
+
+<div class="container fluid">
+    {{meta.is_crif_generated }}
+    {% if meta.is_crif_generated %}
+<!--        Generate crif report <a href="/pdf_report?report_id={{target_user.id}}" class="btn btn-link">Ok</a>-->
+            <a href="/pdf_report?report_id={{target_user.id}}" class="btn btn-primary" >Generate crif report</a>
+            <a href="/veloce_pdf_report?report_id={{target_user.id}}" class="btn btn-primary" >Generate Veloce Score report</a>
+    {%endif%}
+
+    <h1>
+        Overview
+        {%if complete%}
+        ✅
+        {%endif%}
+    </h1>
+    <p class="subtitle">
+        <em>updated on {{meta.updated_at.strftime("%d/%m/%Y")}}</em>
+    </p>
+    {%if meta.profile_reviewed != meta.profile_verified and meta.reject_reason%}
+    <b>Comments:</b>
+    <pre style="font-family: 'Hind', sans-serif; overflow:hidden;">{{meta.reject_reason}}</pre>
+    {%endif%}
+
+    {%for module in modules%}
+    {%set status = meta.get_status(loop.index-1)%}
+    {%if not status == 'Incomplete'%}
+    <div class="module {%if loop.index == step%} active {%endif%}">
+        <h2>{{module.title}}</h2>
+<!--        {%if module.level > 1%}-->
+<!--        <div class="status-badge">-->
+<!--            Optional-->
+<!--        </div>-->
+<!--        {%endif%}-->
+        <div class="status-badge {{status.lower().replace(' ', '_')}}">
+            {{status}}
+        </div>
+
+        <br><br>
+        {%if module.instance_title%}
+        {%for instance in module.instances(target_user)%}
+        {%if instance.is_complete%}
+        <h3>{{module.instance_title}} {{loop.index}}</h3>
+        {{render_forms(module, target_user, loop.index)}}
+        {%endif%}
+        {%endfor%}
+        {%else%}
+        {{render_forms(module, target_user)}}
+        {%endif%}
+
+        <form class="flex" method="POST">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}">
+            <input type="hidden" name="step" value="{{loop.index}}">
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            <a href="/admin/reject/{{target_user.id}}/{{loop.index-1}}" class="btn btn-link">Reject</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="submit" class="btn btn-primary" value="Approve">
+        </form>
+    </div>
+    {%endif%}
+    {%endfor%}
+</div>
+
+{%endblock main%}

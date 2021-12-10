@@ -1,0 +1,101 @@
+{%extends "layouts/auth.html"%}
+
+{%from 'layouts/forms.html' import render_forms%}
+
+{%block content%}
+<h1>{{module.title}}</h1>
+<!--{%set status = meta.get_status(step-1)%}-->
+<!--{%if module.level > 1 %}-->
+<!--<div class="status-badge">-->
+<!--    Optional-->
+<!--</div>-->
+<!--{%endif%}-->
+<div class="status-badge {{status.lower().replace(' ', '_')}}">
+    {{status}}
+</div>
+<br><br>
+
+{%if not instances%}
+No instances found. Add a new {{module.instance_title}} below.
+<br><br>
+{%endif%}
+
+{%for instance in instances%}
+
+<div style="display:flex;max-width:900px; align-items:center">
+
+    <h3 style="flex:1">
+        <a href="/step/{{step}}/1/{{loop.index}}">
+            {{module.instance_title}} {{loop.index}}
+        </a>
+    </h3>
+
+    {%if instance.is_complete%}
+    <div class="status-badge approved" style="margin-left: 10px; flex:0">
+        Completed
+    </div>
+    {%else%}
+    <div class="status-badge incomplete" style="margin-left: 10px; flex:0">
+        Incomplete
+    </div>
+    {%endif%}
+    <div class="status-badge rejected" style="margin-left: 10px; flex:0">
+        <a style="color:white;text-decoration:none; padding:10px" href="/delete-step/{{step}}/{{loop.index}}">
+            <i class="fas fa-trash"></i>
+        </a>
+    </div>
+    <input type="hidden" class="mul_month" data-id="{{ instance.id }}" name="mul_month" value="{{ instance.month }}">
+</div>
+{{render_forms(module, user, loop.index)}}
+
+{%endfor%}
+    {%if num_instances < module.max_items%}
+        <div class="plusicon" style="max-width:900px;">
+            <a class="secondary" style="width:100%;" href="/step/{{step}}/1/{{num_instances+1}}">
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
+        {% if module.title == 'Previous Loans Details' or module.title == 'Group Company Details' or (module.title == 'Bank Statements for last 12 Months' and num_instances >= 1) %}
+            <div class="flex" style="max-width:900px; padding-top:10px">
+                <a href="/step/{{step-1}}/1" class="btn btn-link btn-back">Back</a>
+                <a href="/step/{{step+1}}/1" class="btn btn-primary" style="border: rgb(0 153 88); padding: 11px 0px; margin: 5px 10px;">Next</a>
+            </div>
+        {% endif %}
+    {%else%}
+        <div class="flex" style="max-width:900px;">
+            <a href="/" class="btn btn-link btn-back">Back</a>
+            <a href="/step/{{step+1}}/1" class="btn btn-primary" style="border: rgb(0 153 88); padding: 11px 0px; margin: 5px 0px;">Next</a>
+        </div>
+    {%endif%}
+<script>
+    $(document).ready(function(){
+        var monthArray = [];
+        $('.mul_month').map(function(){
+            monthArray.push({
+                mon: $(this).val(),
+                id:  $(this).data('id')
+            });
+        })
+        if(monthArray.length > 0){
+            $('select[name="month"] > option').each(function() {
+               var cur_option = $(this);
+               $.each( monthArray, function( key, dv ) {
+                    if(dv['id'] == cur_option.parent().parent().data('id')){
+                        var value = dv['mon']
+                        value = value.replace('[','');
+                        value = value.replace(']','');
+                        value = value.replace(' ','');
+                        value = value.replace(/'/g, '');
+                        $.each(value.split(","), function(i,e){
+                            if (cur_option.val() == e.trim()){
+                                cur_option.prop("selected", "true")
+                                cur_option.attr("selected","selected");
+                            }
+                        });
+                    }
+               });
+            });
+        }
+    });
+</script>
+{%endblock content%}

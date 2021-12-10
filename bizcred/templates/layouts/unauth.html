@@ -1,0 +1,36 @@
+{%extends "layouts/base.html"%}
+
+{%block main%}
+
+<div class="flex">
+    <div class="sidebar">
+
+        <div class="menu">
+            <a href="/"><img style="display:inline-block; max-width:100%; height:auto;" src="/static/beaglelogo.png" alt="" class="src"></a>
+            <br>
+            <a href="http://192.168.0.20:7002/" class="btn">
+                <b>Beagle Bazaar Home</b>
+            </a>
+            <a href="http://192.168.0.20:7003/" class="btn">
+                <b>Beagle Fintech Home</b>
+            </a>
+            <a href="/accounts/login" class="btn">
+                <b>Login</b>
+            </a>
+            <a href="/accounts/register" class="btn">
+                <b>Register</b>
+            </a>
+            <a href="/accounts/password_reset" class="btn">
+                <b>Forgot Password</b>
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        {%block content%}
+        {%endblock content%}
+    </div>
+</div>
+
+<link rel="stylesheet" href="/static/sidebar.css">
+{%endblock main%}

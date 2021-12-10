@@ -1,0 +1,437 @@
+{%extends "layouts/base.html"%}
+
+{%block main%}
+
+<div class="flex">
+    <div class="sidebar">
+        <div class="menu">
+<!--            <img style="margin:10px;" src="/static/logo.png" alt="" class="src">-->
+<!--            <div class="logo-block">-->
+            <a href="/accounts/login">
+                <img style="display:inline-block; max-width:100%; height:auto;" src="/static/beaglelogo.png" alt="" class="src">
+            </a>
+
+            <br>
+            <a href="http://192.168.0.20:7002" class="btn">
+                <b>Beagle Bazaar Home</b>
+            </a>
+            <a href="http://192.168.0.20:7003" class="btn">
+                <b>Beagle Fintech Home</b>
+            </a>
+            <a href="/overview" class="btn">Overview</a>
+            {% if user.metadata.account_type == 1 %}
+                {%for level in range(1, 2)%}
+                    {%for l in level_status%}
+                        {%if l.level == level and l.count > 0%}
+                            <a class="btn levelLabel flex" style="align-items: center; width:100%;" id="label{{level}}">
+                                <span>
+                                    {% if level==1 %}
+                                        Individual
+                                    {% endif %}   
+                                </span>
+                                <i class="fas fa-chevron-right" style="flex:0;font-size:10px;margin-top:-5px;"></i>
+                                <i class="fas fa-exclamation-circle" data-toggle="tooltip" title="Level is incomplete." style="color:red;flex:0;padding-left: 10px;padding-right: 2px;transform: rotate(360deg) !important;"></i>
+                            </a>
+                            {%elif l.level == level and l.count == 0 %}
+                            <a class="btn levelLabel flex" style="align-items: center; width:100%;" id="label{{level}}">
+                                <span>
+                                    {% if level==1 %}
+                                        Individual
+                                    {% endif %}
+                                </span>
+                                <i class="fas fa-chevron-right" style="flex:0;font-size:10px;margin-top:-5px;"></i>
+                                <i class="fas fa-check-circle" data-toggle="tooltip" title="Level is completed." style="color:green;flex:0;padding-left: 10px; padding-right: 2px;transform: rotate(360deg) !important;"></i>
+                            </a>
+                        {%endif%}
+                    {%endfor%}
+                    <div id="level{{level}}" class="subitems">
+                    {%for module in modules%}
+                        {%if module.level == level%}
+                            {%if meta.get_status(loop.index-1)=='Incomplete'%}
+                                    <a href="/step/{{loop.index}}/1"
+                                    class="btn subitem subclass {%if 'step/' + (loop.index | string()) + '/' in request.get_full_path() + '/'%}active{%endif%}">
+                                        {% if module.smalltitle == "General Information" and user.metadata.account_type == 1 %}
+                                            General Information
+                                        {% elif module.smalltitle == "General Information" and user.metadata.account_type != 1 %}
+                                            Authorised Person Detail
+                                        {% else %}
+                                            {{module.smalltitle}}
+                                        {% endif %}
+                                    <i class="fas fa-exclamation-circle" data-toggle="tooltip" title="Form is incomplete." style="color:red;flex:0;float: right;padding-right: 10px;"></i>
+                                </a>
+                            {%else%}
+                                <a href="/step/{{loop.index}}/1"
+                                class="btn subitem subclass {%if 'step/' + (loop.index | string()) + '/' in request.get_full_path() + '/'%}active{%endif%}">
+                                    {% if module.smalltitle == "General Information" and user.metadata.account_type == 1 %}
+                                        General Information
+                                    {% elif module.smalltitle == "General Information" and user.metadata.account_type != 1 %}
+                                        Authorised Person Detail
+                                    {% else %}
+                                        {{module.smalltitle}}
+                                    {% endif %}
+                                    <i class="fas fa-check-circle" data-toggle="tooltip" title="Form is complete." style="color:green;flex:0;float:right;padding-right: 10px;"></i>
+                                </a>
+                            {%endif%}
+                        {%endif%}
+                    {%endfor%}
+                    </div>
+                {%endfor%}
+            {% elif user.metadata.account_type == 2 %}
+             
+                {%for level in range(1,3)%}
+                    {%for l in level_status%}
+                        {%if l.level == level and l.count > 0%}
+                            <a class="btn levelLabel flex" style="align-items: center; width:100%;" id="label{{level}}">
+                                <span>
+                                    {% if level==1 %}
+                                        Individual
+                                    {% endif %}
+                                    {% if level==2 %}
+                                        Institution
+                                    {% endif %}
+                                </span>
+                                <i class="fas fa-chevron-right" style="flex:0;font-size:10px;margin-top:-5px;"></i>
+                                <i class="fas fa-exclamation-circle" data-toggle="tooltip" title="Level is incomplete." style="color:red;flex:0;padding-left: 10px;padding-right: 2px;transform: rotate(360deg) !important;"></i>
+                            </a>
+                            {%elif l.level == level and l.count == 0 %}
+                            <a class="btn levelLabel flex" style="align-items: center; width:100%;" id="label{{level}}">
+                                <span>
+                                    {% if level==1 %}
+                                        Individual
+                                    {% endif %}
+                                    {% if level==2 %}
+                                        Institution
+                                    {% endif %}
+                                </span>
+                                <i class="fas fa-chevron-right" style="flex:0;font-size:10px;margin-top:-5px;"></i>
+                                <i class="fas fa-check-circle" data-toggle="tooltip" title="Level is completed." style="color:green;flex:0;padding-left: 10px; padding-right: 2px;transform: rotate(360deg) !important;"></i>
+                            </a>
+                        {%endif%}
+                        
+                    {%endfor%}
+                    <div id="level{{level}}" class="subitems">
+                        {%for module in modules%}
+                            {%if module.level == level%}
+                                {%if meta.get_status(loop.index-1)=='Incomplete'%}
+                                    <a href="/step/{{loop.index}}/1"
+                                        class="btn subitem subclass {%if 'step/' + (loop.index | string()) + '/' in request.get_full_path() + '/'%}active{%endif%}">
+                                            {% if module.smalltitle == "General Information" and user.metadata.account_type == 1 %}
+                                                General Information
+                                            {% elif module.smalltitle == "General Information" and user.metadata.account_type != 1 %}
+                                                Authorised Person Detail
+                                            {% else %}
+                                                {{module.smalltitle}}
+                                            {% endif %}
+                                        <i class="fas fa-exclamation-circle" data-toggle="tooltip" title="Form is incomplete." style="color:red;flex:0;float: right;padding-right: 10px;"></i>
+                                    </a>
+                                {%else%}
+                                    <a href="/step/{{loop.index}}/1"
+                                    class="btn subitem subclass {%if 'step/' + (loop.index | string()) + '/' in request.get_full_path() + '/'%}active{%endif%}">
+                                        {% if module.smalltitle == "General Information" and user.metadata.account_type == 1 %}
+                                            General Information
+                                        {% elif module.smalltitle == "General Information" and user.metadata.account_type != 1 %}
+                                            Authorised Person Detail
+                                        {% else %}
+                                            {{module.smalltitle}}
+                                        {% endif %}
+                                        <i class="fas fa-check-circle" data-toggle="tooltip" title="Form is complete." style="color:green;flex:0;float:right;padding-right: 10px;"></i>
+                                    </a>
+                                {%endif%}
+                            {%endif%}
+                        {%endfor%}
+                    </div>
+                {%endfor%}
+            {%else%}                        
+                {%for level in range(1,4)%}
+                    {%for l in level_status%}
+                        {%if l.level == level and l.count > 0%}
+                            <a class="btn levelLabel flex" style="align-items: center; width:100%;" id="label{{level}}">
+                                <span>
+                                    {% if level==1 %}
+                                        Individual
+                                    {% endif %}
+                                    {% if level==2 %}
+                                        Institution
+                                    {% endif %}
+                                    {% if level==3 %}
+                                        Lender
+                                    {%   endif %}
+                                </span>
+                                <i class="fas fa-chevron-right" style="flex:0;font-size:10px;margin-top:-5px;"></i>
+                                <i class="fas fa-exclamation-circle" data-toggle="tooltip" title="Level is incomplete." style="color:red;flex:0;padding-left: 10px;padding-right: 2px;transform: rotate(360deg) !important;"></i>
+                            </a>
+                            {%elif l.level == level and l.count == 0 %}
+                            <a class="btn levelLabel flex" style="align-items: center; width:100%;" id="label{{level}}">
+
+                                <span>
+                                    {% if level==1 %}
+                                        Individual
+                                    {% endif %}
+                                    {% if level==2 %}
+                                        Institution
+                                    {% endif %}
+                                    {% if level==3 %}
+                                        Lender
+                                    {% endif %}
+                                </span>
+                                <i class="fas fa-chevron-right" style="flex:0;font-size:10px;margin-top:-5px;"></i>
+                                <i class="fas fa-check-circle" data-toggle="tooltip" title="Level is completed." style="color:green;flex:0;padding-left: 10px; padding-right: 2px;transform: rotate(360deg) !important;"></i>
+                            </a>
+                        {%endif%}
+                        
+                    {%endfor%}
+                    <div id="level{{level}}" class="subitems">
+                        {%for module in modules%}
+                            {%if module.level == level%}
+                                {%if meta.get_status(loop.index-1)=='Incomplete'%}
+                                    <a href="/step/{{loop.index}}/1"
+                                        class="btn subitem subclass {%if 'step/' + (loop.index | string()) + '/' in request.get_full_path() + '/'%}active{%endif%}">
+                                            {% if module.smalltitle == "General Information" and user.metadata.account_type == 1 %}
+                                                General Information
+                                            {% elif module.smalltitle == "General Information" and user.metadata.account_type != 1 %}
+                                                Authorised Person Detail
+                                            {% else %}
+                                                {{module.smalltitle}}
+                                            {% endif %}
+                                        <i class="fas fa-exclamation-circle" data-toggle="tooltip" title="Form is incomplete." style="color:red;flex:0;float: right;padding-right: 10px;"></i>
+                                    </a>
+                                {%else%}
+                                    <a href="/step/{{loop.index}}/1"
+                                    class="btn subitem subclass {%if 'step/' + (loop.index | string()) + '/' in request.get_full_path() + '/'%}active{%endif%}">
+                                        {% if module.smalltitle == "General Information" and user.metadata.account_type == 1 %}
+                                            General Information
+                                        {% elif module.smalltitle == "General Information" and user.metadata.account_type != 1 %}
+                                            Authorised Person Detail
+                                        {% else %}
+                                            {{module.smalltitle}}
+                                        {% endif %}
+                                        <i class="fas fa-check-circle" data-toggle="tooltip" title="Form is complete." style="color:green;flex:0;float:right;padding-right: 10px;"></i>
+                                    </a>
+                                {%endif%}
+                            {%endif%}
+                        {%endfor%}
+                    </div>
+                {%endfor%}
+            
+            {% endif %}
+
+
+            <a href="/accounts/change-password" class="btn"><b>Change Password</b> </a>
+            <div class="action-btn">
+                <span>
+                    {{ user.email }}
+                </span>
+                <br>
+                <span><a href="/accounts/logout">Logout</a></span>
+            </div>
+        </div>
+
+        <br><br>
+    </div>
+
+    <div class="content">
+        {%block content%}
+        {%endblock content%}
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <font color="Green"> Attention!! </font>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <font color="Black"> </font>
+                {%for l in level_status%}
+                {%if l.level == 1%}
+                <div class="level-{{l.level}}-content {% if l.count == 0 %}modalclass{%else%}{%endif%}">
+                    <font color="Green"> &#10004; </font>
+                    <font color="Black"> </font> Complete your level – 1
+                    registration,
+                    to have an excess to </br>
+                    <ul>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> View the price of the
+                        products and
+                        vendor details</br>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> Have a reach to genuine and
+                        qualified Beagle dealers to procure your desired products and equipments</br>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> Raise purchase inquiries for
+                        your
+                        desired products</br>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> Get exciting deals from our
+                        vendors</br>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> Get enrolled for our exciting
+                        customer’s rewards programme</br>
+                    </ul>
+                </div>
+                {%elif l.level == 2 %}
+                <div class="level-{{l.level}}-content {% if l.count == 0 %}modalclass{%else%}{%endif%}">
+                    <font color="Green"> &#10004; </font>
+                    <font color="Black"> </font> Complete your level – 2
+                    registration,
+                    to further upgrade your account to </br>
+                    <ul>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> Become a dealer and list your
+                        products to sell through Beagle</br>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> Have a reach to our widely
+                        spread
+                        customer base</br>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> Upload the sales bills and
+                        sales
+                        information and get enrolled for our exciting dealer rewards programme</br>
+                    </ul>
+                </div>
+                {%elif l.level == 3 %}
+                <div class="level-{{l.level}}-content {% if l.count == 0 %}modalclass{%else%}{%endif%}">
+                    <font color="Green"> &#10004; </font>
+                    <font color="Black"> </font> Complete your level – 3
+                    registration,
+                    to further upgrade your account to </br>
+                    <ul>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> Become a Beagle Approved
+                        Dealer and
+                        get the Beagle Approved tag on all your listed products as a dealer</br>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> Be eligible to get your
+                        listed
+                        products for getting exciting finance deals from Beagle and allied finance partners</br>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> As a dealer, have a benefit
+                        to get
+                        finance on your uploaded sales bills</br>
+                        <font color="Green"> &#10004; </font>
+                        <font color="Black"> </font> As a customer, be eligible to
+                        get
+                        finance on your procured products</br>
+                    </ul>
+                </div>
+                {%else%}
+                {%endif%}
+                {%endfor%}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/static/sidebar.css">
+<style>
+    h2,
+    h1 {
+        margin-bottom: 0;
+        margin-top: 25px;
+    }
+
+    .levelLabel i {
+        transition: 0.2s ease-in-out;
+    }
+
+    .levelLabel.active i {
+        transform: rotate(90deg);
+
+    }
+
+      .incomplete {
+    /* border: 1px solid rgba(255, 99, 71, 0.9);
+    border-color: #dc3545; */
+    padding-right: calc(1.5em + .75rem) !important;
+    /* background-image: url("https://api.iconify.design/carbon-warning-filled.svg?color=red"); */
+    background-repeat: no-repeat;
+    background-position: right calc(.375em + .1875rem) center !important;
+    background-size: calc(.75em + .375rem) calc(.75em + .375rem) !important;
+    transform: rotate(360deg) !important;
+}
+    .complete{
+    /* border: 1px solid rgb(0, 153, 88);
+    border-color: #28a745; */
+    padding-right: calc(1.5em + .75rem);
+    /* background-image: url("https://api.iconify.design/emojione-monotone:white-heavy-check-mark.svg?color=green"); */
+    background-repeat: no-repeat;
+    background-position: right calc(.375em + .1875rem) center;
+    background-size: calc(.70em + .375rem) calc(.70em + .375rem);
+    transform: rotate(360deg) !important;
+}
+
+.subclass {
+    float: right !important;
+}
+</style>
+<script>
+    $(".subitems").hide();
+    $(".btn.subitem.active").parent(".subitems").show();
+    $(".levelLabel").click((e) => {
+        const parent = $(e.target).parent(".levelLabel")[0];
+        const id = parent.id.replace("label", "level");
+
+        $(".levelLabel").removeClass("active")
+        $(".subitems:not(#" + id + ")").slideUp();
+
+        const subitems = $("#" + id);
+        const isHidden = subitems.is(":visible");
+        subitems.slideToggle()
+        if (isHidden) parent.removeClass("active")
+        else parent.classList.add("active")
+    })
+
+    $(document).ready(function(){
+    $(".complete").tooltip();
+});
+
+$('#label1').click(function () {
+        if ($('.level-1-content').hasClass('modalclass')) {
+            $('#exampleModal').modal('hide');
+        }
+        else {
+            $('#exampleModal').modal('show');
+        }
+        $(".level-1-content").css('display', 'block')
+        $(".level-2-content").css('display', 'none')
+        $(".level-3-content").css('display', 'none')
+    });
+
+    $('#label2').click(function () {
+        if ($('.level-2-content').hasClass('modalclass')) {
+            $('#exampleModal').modal('hide');
+        }
+        else {
+            $('#exampleModal').modal('show');
+        }
+        $(".level-1-content").css('display', 'none')
+        $(".level-2-content").css('display', 'block')
+        $(".level-3-content").css('display', 'none')
+    });
+
+    $('#label3').click(function () {
+        if ($('.level-3-content').hasClass('modalclass')) {
+            $('#exampleModal').modal('hide');
+        }
+        else {
+            $('#exampleModal').modal('show');
+        }
+        $(".level-3-content").css('display', 'block')
+        $(".level-1-content").css('display', 'none')
+        $(".level-2-content").css('display', 'none')
+    });
+
+
+</script>
+
+{%endblock main%}

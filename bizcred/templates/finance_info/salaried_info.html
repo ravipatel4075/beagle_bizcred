@@ -1,0 +1,41 @@
+{%extends "layouts/auth-form.html"%}
+
+{%block title%}Salaried Details{%endblock title%}
+{%block pagetitle%}Finance Information{%endblock pagetitle%}
+
+
+{%block post%}
+<div class="veloce-bizcred-control full">
+    <div class="flex">
+        <a href="/" class="btn btn-link">Cancel</a>
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </div>
+</div>
+{%endblock post%}
+
+{%block script%}
+<script>
+    $('#id_working_years_in_company').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 3)
+            e.preventDefault();
+    });
+    $('#id_work_experience').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 3)
+            e.preventDefault();
+    });
+</script>
+{%endblock script%}

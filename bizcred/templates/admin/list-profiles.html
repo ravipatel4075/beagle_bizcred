@@ -1,0 +1,26 @@
+{%extends "layouts/base.html"%}
+
+{%block main%}
+<div class="content">
+    {%for meta in metas%}
+    <div>
+        <a href="/admin/profiles/{{meta.user.id}}">
+            <h1>{{meta.user.first_name}} {{meta.user.last_name}}</h1>
+        </a>
+        <b>Email:</b> {{meta.user.email}} <br>
+        <b>Account Type:</b> {{account_types[meta.account_type]}}
+    </div>
+    {%endfor%}
+</div>
+
+<style>
+    .content {
+        padding: 25px;
+    }
+
+    h1 {
+        margin-bottom: 0;
+        margin-top: 25px;
+    }
+</style>
+{%endblock main%}

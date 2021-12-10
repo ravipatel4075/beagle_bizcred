@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        li {
+                list-style: none;
+            }
+
+    </style>
+</head>
+<body>
+Hello Admin,
+
+
+<br/>
+{%if user_type == 'INDIVIDUAL' %}
+    <p>Level – {{level}} of registration information has been reviewed and approved by {{approver}} for following user:</p> <br/>
+        <ul>
+            <li> Name - {{first_name}} {{last_name}}</li>
+            <li> Type - {{user_type | capitalize}} user</li>
+            <li> Mail ID - {{ user }}</li>
+        </ul>
+
+{%elif  user_type == 'LENDER' %}
+            <p> Lender registration information is reviewed and approved for a registered lender user having an email id  <b> {{ user }} </b>  and Institution name  <b> {{org_name}} </b> </p> <br/>
+
+            <p>
+                <img style="margin:10px;" src="http://www.veloceinnovations.tech/static/logo.png" alt="" class="src">
+                <br>
+                Best Regards, <br>
+                Beagle Bazaar Team <br>
+                        <a href="http://www.velocefintech.com/" target="_blank">velocefintech.com</a>
+            </p>
+{%else%}
+    <p>Level – {{level}} of registration information has been reviewed and approved by {{approver}} for following user:</p> <br/>
+        <ul>
+            <li> Name - {{org_name}}</li>
+            <li> Type - {{user_type | capitalize}} user</li>
+            <li> Mail ID - {{ user }}</li>
+        </ul>
+{%endif%}
+
+</body>
+</html>
+    

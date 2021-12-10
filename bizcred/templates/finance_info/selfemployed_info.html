@@ -1,0 +1,130 @@
+{%extends "layouts/auth-form.html"%}
+
+
+{%block title%}Self-Employed Details{%endblock title%}
+{%block pagetitle%}Finance Information{%endblock pagetitle%}
+
+
+{%block post%}
+<div class="veloce-bizcred-control full">
+    <div class="flex">
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </div>
+</div>
+{%endblock post%}
+
+{%block script%}
+<script>
+    $('#id_turnover_revenue').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 9)
+            e.preventDefault();
+    });
+    $('#id_profit_befor_interest').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 9)
+            e.preventDefault();
+    });
+    $('#id_interest_expense').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 6)
+            e.preventDefault();
+    });
+    $('#id_depreciate').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 6)
+            e.preventDefault();
+    });
+    $('#id_tax').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 7)
+            e.preventDefault();
+    });
+    $('#id_profite_after_tax').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 7)
+            e.preventDefault();
+    });
+    $('#id_capital_reserves').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 9)
+            e.preventDefault();
+    });
+    $('#id_total_borrowing').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 9)
+            e.preventDefault();
+    });
+    $('#id_current_assets').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 9)
+            e.preventDefault();
+    });
+    $('#id_current_liablities').keypress(function(e) {
+        var a = [];
+        var k = e.which;
+        var length = $(this).val().length;
+        
+        for (i = 48; i < 58; i++)
+            a.push(i);
+        
+        if (!(a.indexOf(k)>=0) || length > 9)
+            e.preventDefault();
+    });
+
+</script>
+{%endblock script%}

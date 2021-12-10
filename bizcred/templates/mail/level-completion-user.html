@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+
+
+    {%if user_type  == 'LENDER' %}
+
+            Dear {{org_name}},<br/>
+
+            <br/> <p>Thank you for completing your profile Information at Beagle Bazaar;</p>
+
+            <p>Our team will soon review it and will approve and upgrade your profile accordingly;</p>
+
+            <p>
+                 <img style="margin:10px;" src="http://www.veloceinnovations.tech/static/logo.png" alt="" class="src">
+                 <br>
+                 Best Regards, <br>
+                 Beagle Bazaar Team <br>
+                        <a href="http://www.veloceinnovations.tech/" target="_blank">veloceinnovation.tech</a>
+            </p>
+    {%else%}
+        Dear {{first_name}},<br/>
+
+            {%if level == 1%}
+
+                <br/> <p>Thank you for providing level – 1 information!</p>
+
+                <p>Our team will soon review it and upon approval your profile will be upgraded.</p>
+
+                <p>Further, please provide additional set of information on the portal to complete different
+                    levels & enjoy exciting functionalities of the platform.</p>
+
+                <p>Furnishing level – 2 information will enable you to become a dealer and list your products
+                    to sell them on Beagle Bazaar.</p>
+
+                <p>What are you waiting for? Just <a href='http://www.veloceinnovations.tech/'>Click here</a> and follow a few simple steps!</p>
+
+                <p>Once done, you shall have an access to our widely spread customer base on your fingertips!</p>
+
+                <p>Let’s go…</p> <br/>
+                <p>
+                    <img style="margin:10px;" src="http://www.veloceinnovations.tech/static/logo.png" alt="" class="src">
+                    <br>
+                    Best Regards, <br>
+                    Beagle Bazaar Team <br>
+        <!--            <a href="http://www.veloceinnovations.tech/" target="_blank">veloce</a>-->
+                </p>
+            {%elif level == 2%}
+                <br/> <p>Thank you for providing level – 2 information!</p>
+
+                <p>Our team will soon review it and upon approval your profile will be upgraded.</p>
+
+                <p>Please provide additional set of information on the portal to complete level – 3
+                    & enjoy more exciting functionalities of the platform.</p>
+
+                <p>Furnishing level – 3 information will enable you to become a <b>Beagle Bazaar Approved</b>
+                    dealer and get <b>Beagle Bazaar Approved</b> tag on all the products listed by you on Beagle Bazaar.</p>
+
+                <p> <i>Also be eligible to have tempting finance deals from Beagle Bazaar and its allied finance partners
+                    for your sales as well as purchases from Beagle Bazaar. Yes, you read it correct. Get your sales invoices
+                    funded from us!</i> </p>
+
+                <p>What are you waiting for? Just <a href='http://www.veloceinnovations.tech/'>Click here</a> and follow a few simple steps!</p>
+
+                <p>Amazing finance deal are waiting over there!</p>
+
+                <p>Let’s go… </p> <br/>
+                <p>
+                    <img style="margin:10px;" src="http://www.veloceinnovations.tech/static/logo.png" alt="" class="src">
+                    <br>
+                    Best Regards, <br>
+                    Beagle Bazaar Team <br>
+        <!--            <a href="http://www.veloceinnovations.tech/" target="_blank">veloce</a>-->
+                </p>
+            {%else%}
+                <br/><p>Thank you for providing level – 3 information!</p>
+
+                <p>Our team will soon review it and upon approval your profile will be upgraded to
+                    activate all the functions available on Beagle Bazaar market place!</p>
+
+                <p>
+                    <img style="margin:10px;" src="http://www.veloceinnovations.tech/static/logo.png" alt="" class="src">
+                    <br>
+                    Best Regards, <br>
+                    Beagle Bazaar Team <br>
+        <!--            <a href="http://www.veloceinnovations.tech/" target="_blank">veloce</a>-->
+                </p>
+            {%endif%}
+    {%endif%}
+
+  </body>
+</html> 
+
+
+
+
